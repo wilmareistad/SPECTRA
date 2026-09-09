@@ -2,6 +2,7 @@ import { useState } from 'react'
 import styles from './App.module.css'
 import './App.css'
 import ConfiguratorPanel from './components/ConfiguratorPanel/ConfiguratorPanel'
+import Scene from './components/Scene'
 
 function App() {
   const [colour, setColour] = useState('white')
@@ -11,8 +12,7 @@ function App() {
   
     <main className={styles.app}>
       <div className={styles.modelContainer}>
-      {/* 3D-modellen kommer här */}
-      <h1>hej</h1>
+      <Scene /> 
       </div>
 
       <div className={styles.componentsContainer}>
