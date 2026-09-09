@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './App.module.css'
+import styles from './App.module.css'
 import ConfiguratorPanel from './components/ConfiguratorPanel/ConfiguratorPanel'
 
 function App() {
@@ -8,12 +8,13 @@ function App() {
   return (
     <>
   
-    <main className="app">
-      <div className="model-container">
+    <main className={styles.app}>
+      <div className={styles.modelContainer}>
       {/* 3D-modellen kommer här */}
+      <h1>hej</h1>
       </div>
 
-      <div className="components-container">
+      <div className={styles.componentsContainer}>
         <ConfiguratorPanel colour={colour} onColourChange={setColour} />
 
         {/* komponenter (lenstypepicker. osv ) kommer här */}
