@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import './App.module.css'
-import 'components/ConfigurationPanel'
 import ConfiguratorPanel from './components/ConfiguratorPanel/ConfiguratorPanel'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [colour, setColour] = useState('white')
 
   return (
     <>
