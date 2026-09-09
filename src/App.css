@@ -1,0 +1,12 @@
+:root {
+  /* colors */
+  --color-bg: #010B0D;
+  --color-Grey-Scale-900: #1A1A1B;
+  --color-accent: #ECFF87;
+  --color-text: #ffffff;
+  --color-Grey-Scale-300: #B5B9BC;
+
+  /* text */
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+}
