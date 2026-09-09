@@ -1,0 +1,33 @@
+.picker {
+  margin-bottom: 24px;
+}
+
+.picker h3 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.swatches {
+  display: flex;
+  gap: 12px;
+}
+
+.swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.selected {
+  border-color: #e8f78a;
+}
+
+.picker p {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #999;
+}
