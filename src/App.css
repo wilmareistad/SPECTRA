@@ -1,0 +1,32 @@
+:root {
+  /* colors */
+  --color-bg: #010B0D;
+  --color-Grey-Scale-900: #1A1A1B;
+  --color-accent: #ECFF87;
+  --color-text: #ffffff;
+  --color-Grey-Scale-300: #B5B9BC;
+
+  /* text */
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+  --border-radius: 6px;
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-mono);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.mainBtn {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    border-radius: var(--border-radius);
+    border: none;
+    padding: 10px 18px;
+}

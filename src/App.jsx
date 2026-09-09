@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styles from './App.module.css'
+import './App.css'
 import ConfiguratorPanel from './components/ConfiguratorPanel/ConfiguratorPanel'
 
 function App() {
