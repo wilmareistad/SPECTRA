@@ -10,3 +10,18 @@
   --font-mono: 'Space Mono', 'Courier New', monospace;
 
 }
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-mono);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.mainBtn {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+}
