@@ -1,0 +1,18 @@
+.panel {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.section {
+    background-color: var(--color-Grey-Scale-900);
+	padding: 16px;
+    border-radius: var(--border-radius);
+}
+
+.priceBar {
+    display: flex;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    justify-content: space-between;
+}
