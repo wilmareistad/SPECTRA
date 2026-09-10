@@ -12,3 +12,20 @@
   width: 429px;
   flex-shrink: 0;
 }
+
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .modelContainer {
+    flex: 0 0 50vh;
+    height: 50vh;
+    width: 100%;
+  }
+
+  .componentsContainer {
+    width: 100%;
+  }
+
+}

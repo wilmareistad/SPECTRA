@@ -1,11 +1,14 @@
 .sizeOptions {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 12px;
+	width: 100%;
 }
 
 .button {
+	width: 100%;
     padding: 8px 18px;
-	border: 2px solid transparent;
+	border: 1px solid transparent;
 	border-radius: var(--border-radius);
 	background: transparent;
 	color: var(--color-accent);
