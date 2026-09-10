@@ -8,6 +8,7 @@
 
   /* text */
   --font-mono: 'Space Mono', 'Courier New', monospace;
+  --font-charon: 'Iosevka Charon', monospace;
 
   --border-radius: 6px;
 
@@ -30,4 +31,8 @@ body {
     border-radius: var(--border-radius);
     border: none;
     padding: 10px 18px;
+    width: 170px;
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: var(--font-mono);
 }

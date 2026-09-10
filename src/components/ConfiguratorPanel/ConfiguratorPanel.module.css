@@ -10,9 +10,3 @@
     border-radius: var(--border-radius);
 }
 
-.priceBar {
-    display: flex;
-    padding: 16px;
-    border-radius: var(--border-radius);
-    justify-content: space-between;
-}

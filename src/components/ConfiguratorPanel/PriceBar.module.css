@@ -1,0 +1,11 @@
+.priceBar {
+    display: flex;
+    padding: 16px;
+    border-radius: var(--border-radius);
+    justify-content: space-between;
+}
+
+.price {
+    font-size: 2rem;
+    font-family: var(--font-charon);
+}
