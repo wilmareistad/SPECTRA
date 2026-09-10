@@ -1,7 +1,9 @@
+import styles from './PriceBar.module.css'
+
 export default function PriceBar() {
   return (
-    <div className="price-bar">
-      <span className="price">00000€</span>
+    <div className={styles.priceBar}>
+      <span className={styles.price}>00000€</span>
       <button className="mainBtn">add to cart</button>
     </div>
   )
