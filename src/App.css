@@ -25,6 +25,10 @@ body {
     padding: 1.5rem;
 }
 
+button {
+    font-family: var(--font-mono);
+}
+
 .mainBtn {
     background-color: var(--color-accent);
     color: var(--color-bg);
@@ -34,5 +38,4 @@ body {
     width: 170px;
     font-weight: 700;
     font-size: 1rem;
-    font-family: var(--font-mono);
 }

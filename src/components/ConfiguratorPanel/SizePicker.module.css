@@ -1,0 +1,29 @@
+.sizeOptions {
+	display: flex;
+	gap: 12px;
+}
+
+.button {
+    padding: 8px 18px;
+	border: 2px solid transparent;
+	border-radius: var(--border-radius);
+	background: transparent;
+	color: var(--color-accent);
+	cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible,
+.selected {
+	border-color: var(--color-accent);
+}
+
+.button:focus-visible {
+	outline: 2px solid var(--color-text);
+	outline-offset: 3px;
+}
+
+.picker p {
+	margin: 12px 0 0;
+	color: var(--color-Grey-Scale-300);
+}
