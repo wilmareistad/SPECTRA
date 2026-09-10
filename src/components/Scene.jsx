@@ -15,7 +15,7 @@ function Scene({ colour }) {
             intensity={2}
         />
 
-        <Model colour={colour} position={[0, 0.8, 0]} />
+        <Model colour={colour} position={[0, 0.7, 0]} />
 
         <OrbitControls
             autoRotate={!isInteracting}
