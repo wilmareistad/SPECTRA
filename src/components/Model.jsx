@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useAnimations, useGLTF } from '@react-three/drei'
+import { COLOURS } from './ConfiguratorPanel/colours'
 
 function Model({ colour, ...modelProps }) {
   const { scene, animations } = useGLTF('/spectra_test.glb')
@@ -39,8 +40,21 @@ function Model({ colour, ...modelProps }) {
   }, [animations, scene])
 
   useEffect(() => {
-    console.log('[SPECTRA] Selected colour:', colour)
-  }, [colour])
+    const selectedColour = COLOURS.find((item) => item.name === colour)
+    const frameColour = selectedColour?.hex ?? '#ffffff'
+
+    scene.traverse((object) => {
+      if (!object.isMesh) return
+
+      const materials = Array.isArray(object.material)
+        ? object.material
+        : [object.material]
+
+      materials
+        .filter((material) => material.name === 'white frame')
+        .forEach((material) => material.color.set(frameColour))
+    })
+  }, [colour, scene])
 
   useEffect(() => {
     const actionNames = [
