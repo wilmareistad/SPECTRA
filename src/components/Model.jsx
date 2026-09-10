@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { useAnimations, useGLTF } from '@react-three/drei'
+import { LoopOnce } from 'three'
 import { COLOURS } from './ConfiguratorPanel/colours'
 
 function Model({ colour, ...modelProps }) {
   const { scene, animations } = useGLTF('/spectra_test.glb')
-  const { actions } = useAnimations(animations, scene)
+  const { actions, mixer } = useAnimations(animations, scene)
 
   useEffect(() => {
     const modelParts = []
@@ -68,14 +69,48 @@ function Model({ colour, ...modelProps }) {
       .map((name) => actions[name])
       .filter(Boolean)
 
+    const finishedActions = new Set()
+    let phase = 'forward'
+
+    const playReverse = () => {
+      phase = 'reverse'
+      finishedActions.clear()
+
+      activeActions.forEach((action) => {
+        action.time = action.getClip().duration
+        action.timeScale = -1
+        action.paused = false
+        action.play()
+      })
+    }
+
+    const handleFinished = (event) => {
+      if (!activeActions.includes(event.action)) return
+
+      finishedActions.add(event.action)
+
+      if (finishedActions.size !== activeActions.length) return
+
+      if (phase === 'forward') {
+        playReverse()
+      }
+    }
+
+    mixer.addEventListener('finished', handleFinished)
+
     activeActions.forEach((action) => {
-      action.reset().play()
+      action
+        .reset()
+        .setLoop(LoopOnce, 1)
+      action.clampWhenFinished = true
+      action.play()
     })
 
     return () => {
+      mixer.removeEventListener('finished', handleFinished)
       activeActions.forEach((action) => action.stop())
     }
-  }, [actions])
+  }, [actions, mixer])
 
   return <primitive object={scene} {...modelProps} />
 }
