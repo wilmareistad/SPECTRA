@@ -12,7 +12,7 @@ function App() {
   
     <main className={styles.app}>
       <div className={styles.modelContainer}>
-      <Scene /> 
+      <Scene colour={colour} /> 
       </div>
 
       <div className={styles.componentsContainer}>

@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import Model from './Model'
 
-function Scene() {
+function Scene({ colour }) {
     const [isInteracting, setIsInteracting] = useState(false)
     
     return (
@@ -15,7 +15,7 @@ function Scene() {
             intensity={2}
         />
 
-        <Model position={[0, 0.8, 0]}  />
+        <Model colour={colour} position={[0, 0.8, 0]} />
 
         <OrbitControls
             autoRotate={!isInteracting}
