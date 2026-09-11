@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { Center, OrbitControls } from '@react-three/drei'
 import Model from './Model'
 
-function Scene({ colour }) {
+function Scene({ colour, attach1Visible }) {
     const [isInteracting, setIsInteracting] = useState(false)
     
     return (
@@ -16,7 +16,7 @@ function Scene({ colour }) {
         />
 
         <Center position={[0, 0.7, 0]}>
-            <Model colour={colour} />
+            <Model colour={colour} attach1Visible={attach1Visible} />
         </Center>
 
         <OrbitControls

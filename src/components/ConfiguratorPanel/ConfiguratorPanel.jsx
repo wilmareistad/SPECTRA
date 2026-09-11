@@ -5,7 +5,12 @@ import AttachmentsGrid from './AttachmentsGrid'
 import PriceBar from './PriceBar'
 import styles from './ConfiguratorPanel.module.css'
 
-export default function ConfiguratorPanel({ colour, onColourChange }) {
+export default function ConfiguratorPanel({
+  colour,
+  onColourChange,
+  attach1Visible,
+  onAttach1VisibilityChange,
+}) {
   return (
     <div className={styles.panel}>
       <div className={styles.section}>
@@ -18,7 +23,10 @@ export default function ConfiguratorPanel({ colour, onColourChange }) {
         <SizePicker />
       </div>
       <div className={styles.section}>
-        <AttachmentsGrid />
+        <AttachmentsGrid
+          attach1Visible={attach1Visible}
+          onAttach1VisibilityChange={onAttach1VisibilityChange}
+        />
       </div>
       <div className={styles.priceSection}>
         <PriceBar />

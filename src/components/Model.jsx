@@ -3,7 +3,7 @@ import { useAnimations, useGLTF } from '@react-three/drei'
 import { LoopOnce } from 'three'
 import { COLOURS } from './ConfiguratorPanel/colours'
 
-function Model({ colour, ...modelProps }) {
+function Model({ colour, attach1Visible, ...modelProps }) {
   const { scene, animations } = useGLTF('/spectra_test.glb')
   const { actions, mixer } = useAnimations(animations, scene)
 
@@ -56,6 +56,12 @@ function Model({ colour, ...modelProps }) {
         .forEach((material) => material.color.set(frameColour))
     })
   }, [colour, scene])
+
+  useEffect(() => {
+    const attach1 = scene.getObjectByName('Attach_1_Hinge')
+
+    if (attach1) attach1.visible = attach1Visible
+  }, [attach1Visible, scene])
 
   useEffect(() => {
     const actionNames = [

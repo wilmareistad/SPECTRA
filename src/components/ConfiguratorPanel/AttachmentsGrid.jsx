@@ -6,7 +6,10 @@ const ITEMS = [
   { name: 'Zoom', image: '/zoom_attach_alpha.png', price: '399€' },
 ]
 
-export default function AttachmentsGrid() {
+export default function AttachmentsGrid({
+  attach1Visible,
+  onAttach1VisibilityChange,
+}) {
   return (
     <div className={styles.picker}>
       <h3>Attachments</h3>
@@ -20,6 +23,13 @@ export default function AttachmentsGrid() {
           </div>
         ))}
       </div>
+      <button
+        className={styles.visibilityButton}
+        type="button"
+        onClick={() => onAttach1VisibilityChange(!attach1Visible)}
+      >
+        Attach 1: {attach1Visible ? 'On' : 'Off'}
+      </button>
     </div>
   )
 }
