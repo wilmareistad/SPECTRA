@@ -3,15 +3,15 @@ import { Canvas } from '@react-three/fiber'
 import { Center, OrbitControls } from '@react-three/drei'
 import Model from './Model'
 
+
 function Scene({ colour, lensColour, attach1Visible }) {
-    const [isInteracting, setIsInteracting] = useState(false)
     
     return (
     <Canvas>
         <ambientLight intensity={1} />
 
         <directionalLight
-            position={[0, 0, 5]}
+            position={[5, 5, 5]}
             intensity={2}
         />
 
@@ -24,10 +24,9 @@ function Scene({ colour, lensColour, attach1Visible }) {
         </Center>
 
         <OrbitControls
-            autoRotate={!isInteracting}
-            autoRotateSpeed={0.8}
-            onStart={() => setIsInteracting(true)}
-            onEnd={() => setIsInteracting(false)} 
+            minDistance={3}
+            maxDistance={8}
+            enablePan={false}
         />
 
     </Canvas>
