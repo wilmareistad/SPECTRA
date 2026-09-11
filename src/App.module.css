@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   min-height: 100vh;
+  padding: 1.5rem;
   background-image: url('/assets/background_gradient.jpg');
   background-size: cover;
   background-position: center;
@@ -11,14 +12,14 @@
 
 .header {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 429px;
+  top: 1.5rem;
+  left: 1.5rem;
+  right: calc(429px + 1.5rem);
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  margin-right: 1rem;
 }
 
 .header h1 {
@@ -60,6 +61,10 @@
 @media (max-width: 768px) {
   .app {
     flex-direction: column;
+  }
+
+  .header {
+    right: 1.5rem;
   }
 
   .modelContainer {

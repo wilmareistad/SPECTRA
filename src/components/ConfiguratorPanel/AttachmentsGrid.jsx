@@ -12,7 +12,7 @@ export default function AttachmentsGrid({
 }) {
   return (
     <div className={styles.picker}>
-      <h3>Attachments</h3>
+      <h3>[ATTACHEMENTS]</h3>
       <div className={styles.attachmentsGrid}>
         {ITEMS.map((item) => (
           <div key={item.image} className={styles.attachmentItem}>

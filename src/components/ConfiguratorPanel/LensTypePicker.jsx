@@ -4,7 +4,7 @@ import { LENSCOLOURS } from './colours'
 export default function LensPicker({ value, onChange }) {
   return (
     <div className={styles.picker}>
-      <h3>Lenses</h3>
+      <h3>[LENS TYPE]</h3>
       <div className={styles.swatches}>
         {LENSCOLOURS.map((c) => (
           <button
