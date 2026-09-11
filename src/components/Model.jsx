@@ -1,11 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { LoopOnce } from 'three'
-import { COLOURS } from './ConfiguratorPanel/colours'
+import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 
-function Model({ colour, attach1Visible, ...modelProps }) {
+function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
   const { scene, animations } = useGLTF('/spectra_test.glb')
   const { actions, mixer } = useAnimations(animations, scene)
+  const originalLensColours = useRef(new Map())
 
   useEffect(() => {
     const modelParts = []
@@ -56,6 +57,32 @@ function Model({ colour, attach1Visible, ...modelProps }) {
         .forEach((material) => material.color.set(frameColour))
     })
   }, [colour, scene])
+
+  useEffect(() => {
+    const selectedLensColour = LENSCOLOURS.find((item) => item.name === lensColour)
+
+    scene.traverse((object) => {
+      if (!object.isMesh) return
+
+      const materials = Array.isArray(object.material)
+        ? object.material
+        : [object.material]
+
+      materials
+        .filter((material) => material.name === 'Material.001')
+        .forEach((material) => {
+          if (!originalLensColours.current.has(material)) {
+            originalLensColours.current.set(material, material.color.clone())
+          }
+
+          if (selectedLensColour?.name === 'original') {
+            material.color.copy(originalLensColours.current.get(material))
+          } else {
+            material.color.set(selectedLensColour?.hex ?? '#ffffff')
+          }
+        })
+    })
+  }, [lensColour, scene])
 
   useEffect(() => {
     const attach1 = scene.getObjectByName('Attach_1_Hinge')

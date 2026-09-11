@@ -4,3 +4,9 @@ export const COLOURS = [
   { name: 'blue', hex: '#8fb8d9' },
   { name: 'teal', hex: '#4f8f7f' },
 ]
+
+export const LENSCOLOURS = [
+  { name: 'original', hex: '#d6ecff' },
+  { name: 'orange', hex: '#d88945' },
+  { name: 'brown', hex: '#76543d' },
+]

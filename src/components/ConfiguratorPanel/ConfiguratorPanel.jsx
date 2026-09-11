@@ -8,6 +8,8 @@ import styles from './ConfiguratorPanel.module.css'
 export default function ConfiguratorPanel({
   colour,
   onColourChange,
+  lensColour,
+  onLensColourChange,
   attach1Visible,
   onAttach1VisibilityChange,
 }) {
@@ -17,7 +19,7 @@ export default function ConfiguratorPanel({
         <ColourPicker value={colour} onChange={onColourChange} />
       </div>
       <div className={styles.section}>
-        <LensTypePicker />
+        <LensTypePicker value={lensColour} onChange={onLensColourChange} />
       </div>
       <div className={styles.section}>
         <SizePicker />
