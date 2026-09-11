@@ -6,7 +6,7 @@ export const COLOURS = [
 ]
 
 export const LENSCOLOURS = [
+  { name: 'UV protection', hex: '#d88945', image: '/UVLens.png' },
   { name: 'original', hex: '#d6ecff' },
-  { name: 'orange', hex: '#d88945', image: '/UVLens.png' },
   { name: 'brown', hex: '#76543d' },
 ]
