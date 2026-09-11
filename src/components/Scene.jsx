@@ -11,7 +11,7 @@ function Scene({ colour, lensColour, attach1Visible }) {
         <ambientLight intensity={1} />
 
         <directionalLight
-            position={[5, 5, 5]}
+            position={[0, 0, 5]}
             intensity={2}
         />
 
