@@ -1,12 +1,15 @@
 .panel {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
 }
 
 .section {
     background-color: var(--color-Grey-Scale-900);
 	padding: 16px;
-    border-radius: var(--border-radius);
+    border: 1px solid #E9EEF2;
+}
+
+.section + .section {
+	margin-top: -1px;
 }
 

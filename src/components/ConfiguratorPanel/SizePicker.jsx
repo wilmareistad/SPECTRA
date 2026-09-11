@@ -14,7 +14,7 @@ export default function SizePicker() {
 
   return (
     <div className={styles.picker}>
-      <h3>Size</h3>
+      <h3>[SIZE]</h3>
       <div className={styles.sizeOptions}>
         {SIZES.map((size) => (
           <button

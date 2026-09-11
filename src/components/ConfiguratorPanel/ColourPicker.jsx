@@ -4,7 +4,7 @@ import { COLOURS } from './colours'
 export default function ColourPicker({ value, onChange }) {
   return (
     <div className={styles.picker}>
-      <h3>Colour</h3>
+      <h3>[COLOUR]</h3>
       <div className={styles.swatches}>
         {COLOURS.map((c) => (
           <button
