@@ -2,7 +2,12 @@
   position: relative;
   display: flex;
   min-height: 100vh;
+  background-image: url('/assets/background_gradient.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 
 .header {
   position: absolute;
