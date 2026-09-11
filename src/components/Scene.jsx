@@ -4,7 +4,7 @@ import { Center, OrbitControls } from '@react-three/drei'
 import Model from './Model'
 
 
-function Scene({ colour }) {
+function Scene({ colour, lensColour, attach1Visible }) {
     
     return (
     <Canvas>
@@ -16,7 +16,11 @@ function Scene({ colour }) {
         />
 
         <Center position={[0, 0.7, 0]}>
-            <Model colour={colour} />
+            <Model
+                colour={colour}
+                lensColour={lensColour}
+                attach1Visible={attach1Visible}
+            />
         </Center>
 
         <OrbitControls
