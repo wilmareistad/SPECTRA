@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { Center, OrbitControls } from '@react-three/drei'
 import Model from './Model'
 
 function Scene({ colour }) {
@@ -15,7 +15,9 @@ function Scene({ colour }) {
             intensity={2}
         />
 
-        <Model colour={colour} position={[0, 0.7, 0]} />
+        <Center position={[0, 0.7, 0]}>
+            <Model colour={colour} />
+        </Center>
 
         <OrbitControls
             autoRotate={!isInteracting}
