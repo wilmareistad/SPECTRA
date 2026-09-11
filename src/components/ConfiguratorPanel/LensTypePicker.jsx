@@ -10,7 +10,10 @@ export default function LensPicker({ value, onChange }) {
           <button
             key={c.name}
             className={`${styles.swatch} ${value === c.name ? styles.selected : ''}`}
-            style={{ backgroundColor: c.hex }}
+            style={{
+              backgroundColor: c.hex,
+              ...(c.image ? { backgroundImage: `url(${c.image})` } : {}),
+            }}
             onClick={() => onChange(c.name)}
             aria-label={`Choose ${c.name} lens colour`}
             title={`Choose ${c.name} lens colour`}
