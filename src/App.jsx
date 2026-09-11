@@ -6,9 +6,13 @@ import Scene from './components/Scene'
 
 function App() {
   const [colour, setColour] = useState('white')
+  const [lensColour, setLensColour] = useState('original')
+  const [attach1Visible, setAttach1Visible] = useState(true)
 
   function resetConfiguration() {
     setColour('white')
+    setLensColour('original')
+    setAttach1Visible(true)
   }
 
   return (
@@ -28,11 +32,22 @@ function App() {
       </header>
 
       <div className={styles.modelContainer}>
-        <Scene colour={colour} />
+        <Scene
+          colour={colour}
+          lensColour={lensColour}
+          attach1Visible={attach1Visible}
+        />
       </div>
 
       <div className={styles.componentsContainer}>
-        <ConfiguratorPanel colour={colour} onColourChange={setColour} />
+        <ConfiguratorPanel
+          colour={colour}
+          onColourChange={setColour}
+          lensColour={lensColour}
+          onLensColourChange={setLensColour}
+          attach1Visible={attach1Visible}
+          onAttach1VisibilityChange={setAttach1Visible}
+        />
       </div>
     </main>
     </>
