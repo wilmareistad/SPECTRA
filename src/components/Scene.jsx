@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Center, OrbitControls } from '@react-three/drei'
 import Model from './Model'
@@ -7,12 +6,26 @@ import Model from './Model'
 function Scene({ colour, lensColour, attach1Visible }) {
     
     return (
-    <Canvas>
-        <ambientLight intensity={1} />
+    <Canvas
+        gl={{ antialias: true }}
+    >
+        <ambientLight intensity={0.35} />
 
         <directionalLight
-            position={[5, 5, 5]}
-            intensity={2}
+            position={[4, 5, 4]}
+            intensity={2.8}
+            color="#fff7e8"
+        />
+        <directionalLight
+            position={[-4, 2, 2]}
+            intensity={1.8}
+            color="#b9d8ff"
+        />
+        <pointLight
+            position={[0, 1, 2.5]}
+            intensity={1.5}
+            distance={5}
+            color="#ffffff"
         />
 
         <Center position={[0, 0.7, 0]}>

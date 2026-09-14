@@ -6,7 +6,7 @@ import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
   const { scene, animations, materials, parser } = useGLTF('/spectra_david_v1.glb')
   const { actions, mixer } = useAnimations(animations, scene)
-  const originalLensColours = useRef(new Map())
+  const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
   const frameMaterials = useRef({ white: null, black: null })
 
@@ -105,22 +105,18 @@ function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
       objectMaterials
         .filter((material) => material.name === 'glass')
         .forEach((material) => {
-          if (!glassesLensMaterial.current) {
+          if (!originalLensMaterial.current) {
+            originalLensMaterial.current = material
             glassesLensMaterial.current = material.clone()
-            material.color.set('#ffffff')
-            object.material = glassesLensMaterial.current
-          }
-
-          const glassesMaterial = glassesLensMaterial.current
-
-          if (!originalLensColours.current.has(glassesMaterial)) {
-            originalLensColours.current.set(glassesMaterial, glassesMaterial.color.clone())
           }
 
           if (selectedLensColour?.name === 'original') {
-            glassesMaterial.color.copy(originalLensColours.current.get(glassesMaterial))
+            object.material = originalLensMaterial.current
           } else {
+            const glassesMaterial = glassesLensMaterial.current
+            object.material = glassesMaterial
             glassesMaterial.color.set(selectedLensColour?.hex ?? '#ffffff')
+            glassesMaterial.needsUpdate = true
           }
         })
     })
