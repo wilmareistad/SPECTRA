@@ -8,7 +8,7 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
   const { actions } = useAnimations(animations, scene)
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
-  const frameMaterials = useRef({ white: null, black: null })
+  const frameMaterials = useRef({ white: null, black: null, colour: null })
   const previousAttachments = useRef([])
 
   useEffect(() => {
@@ -62,11 +62,10 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
         object.material = frameMaterial
       })
 
-      frameMaterial.color.set(
-        colour === 'black' || colour === 'white'
-          ? '#ffffff'
-          : selectedColour?.hex ?? '#ffffff',
-      )
+      if (colour !== 'black') {
+        frameMaterial.color.set(selectedColour?.hex ?? '#ffffff')
+        frameMaterial.needsUpdate = true
+      }
     }
 
     scene.traverse((object) => {
@@ -83,9 +82,13 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
           ?? await parser?.getDependency('material', 5)
       }
 
+      if (colour !== 'black' && !frameMaterials.current.colour) {
+        frameMaterials.current.colour = frameMaterials.current.white?.clone()
+      }
+
       const frameMaterial = colour === 'black'
         ? frameMaterials.current.black ?? frameMaterials.current.white
-        : frameMaterials.current.white
+        : frameMaterials.current.colour ?? frameMaterials.current.white
 
       applyFrameMaterial(frameMaterial)
     }
