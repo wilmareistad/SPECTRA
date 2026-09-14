@@ -1,13 +1,12 @@
 export const COLOURS = [
   { name: 'white', hex: '#ffffff' },
   { name: 'black', hex: '#000000' },
-  { name: 'green', hex: '#a8c99a' },
-  { name: 'blue', hex: '#8fb8d9' },
-  { name: 'teal', hex: '#4f8f7f' },
+  { name: 'green', hex: '#383e35' },
+  { name: 'beige', hex: '#c8b79a' },
 ]
 
 export const LENSCOLOURS = [
-  { name: 'UV protection', hex: '#d88945', image: '/UVLens.png' },
   { name: 'original', hex: '#d6ecff' },
+  { name: 'UV protection', hex: '#d88945', image: '/UVLens.png' },
   { name: 'brown', hex: '#76543d' },
 ]

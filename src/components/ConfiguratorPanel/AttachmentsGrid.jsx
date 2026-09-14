@@ -1,10 +1,5 @@
 import styles from './AttachmentsGrid.module.css'
-
-const ITEMS = [
-  { name: 'Laser', image: '/laser_alpha.png', price: '399€' },
-  { name: 'Top', image: '/top_attach_alpha.png', price: '399€' },
-  { name: 'Zoom', image: '/zoom_attach_alpha.png', price: '399€' },
-]
+import { ATTACHMENTS } from './pricing'
 
 export default function AttachmentsGrid({
   selectedAttachments,
@@ -14,7 +9,7 @@ export default function AttachmentsGrid({
     <div className={styles.picker}>
       <h3>[ATTACHEMENTS]</h3>
       <div className={styles.attachmentsGrid}>
-        {ITEMS.map((item) => {
+        {ATTACHMENTS.map((item) => {
           const attachment = item.name.toLowerCase()
           const isSelected = selectedAttachments.includes(attachment)
 
@@ -36,7 +31,7 @@ export default function AttachmentsGrid({
               >
                 <img src={item.image} alt={item.name} />
               </button>
-              <p>{item.name} <span>{item.price}</span></p>
+              <p>{item.name} <span>{item.price}€</span></p>
             </div>
           )
         })}
