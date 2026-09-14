@@ -10,7 +10,7 @@ const DEFAULT_CAMERA_TARGET = [0, 0.7, 0]
 const CAMERA_FOCUSES = {
     laser: { position: [3.6, 1.7, 5.2], target: [0.15, 0.75, 0] },
     top: { position: [0, 3.1, 5.2], target: [0, 0.95, 0] },
-    zoom: { position: [3.6, 1.7, 5.2], target: [0.15, 0.75, 0] },
+    zoom: { position: [2.9, 1.9, 5.4], target: [0.1, 0.8, 0] },
 }
 
 function CameraController({ selectedAttachments, cameraResetKey }) {
