@@ -4,9 +4,11 @@ import { LoopOnce } from 'three'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 
 function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
-  const { scene, animations } = useGLTF('/spectra_david_v1.glb')
+  const { scene, animations, materials, parser } = useGLTF('/spectra_david_v1.glb')
   const { actions, mixer } = useAnimations(animations, scene)
   const originalLensColours = useRef(new Map())
+  const glassesLensMaterial = useRef(null)
+  const frameMaterials = useRef({ white: null, black: null })
 
   useEffect(() => {
     const modelParts = []
@@ -43,42 +45,82 @@ function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
 
   useEffect(() => {
     const selectedColour = COLOURS.find((item) => item.name === colour)
-    const frameColour = selectedColour?.hex ?? '#ffffff'
+    let cancelled = false
+
+    const applyFrameMaterial = (frameMaterial) => {
+      if (!frameMaterial || cancelled) return
+
+      scene.traverse((object) => {
+        if (!object.isMesh) return
+        if (!['glasses_frame', 'glasses_frame_arms'].includes(object.name)) return
+
+        object.material = frameMaterial
+      })
+
+      frameMaterial.color.set(
+        colour === 'black' || colour === 'white'
+          ? '#ffffff'
+          : selectedColour?.hex ?? '#ffffff',
+      )
+    }
 
     scene.traverse((object) => {
       if (!object.isMesh) return
-
-      const materials = Array.isArray(object.material)
-        ? object.material
-        : [object.material]
-
-      materials
-        .filter((material) => material.name === 'texture_frame_combined_white')
-        .forEach((material) => material.color.set(frameColour))
+      if (!['glasses_frame', 'glasses_frame_arms'].includes(object.name)) return
+      if (!frameMaterials.current.white && object.material) {
+        frameMaterials.current.white = object.material
+      }
     })
-  }, [colour, scene])
+
+    const updateFrameMaterial = async () => {
+      if (colour === 'black' && !frameMaterials.current.black) {
+        frameMaterials.current.black = materials.texture_frame_combined_black
+          ?? await parser?.getDependency('material', 5)
+      }
+
+      const frameMaterial = colour === 'black'
+        ? frameMaterials.current.black ?? frameMaterials.current.white
+        : frameMaterials.current.white
+
+      applyFrameMaterial(frameMaterial)
+    }
+
+    updateFrameMaterial()
+
+    return () => {
+      cancelled = true
+    }
+  }, [colour, materials, parser, scene])
 
   useEffect(() => {
     const selectedLensColour = LENSCOLOURS.find((item) => item.name === lensColour)
 
     scene.traverse((object) => {
-      if (!object.isMesh) return
+      if (!object.isMesh || object.name !== 'glasses_glass') return
 
-      const materials = Array.isArray(object.material)
+      const objectMaterials = Array.isArray(object.material)
         ? object.material
         : [object.material]
 
-      materials
+      objectMaterials
         .filter((material) => material.name === 'glass')
         .forEach((material) => {
-          if (!originalLensColours.current.has(material)) {
-            originalLensColours.current.set(material, material.color.clone())
+          if (!glassesLensMaterial.current) {
+            glassesLensMaterial.current = material.clone()
+            material.color.set('#ffffff')
+            object.material = glassesLensMaterial.current
+          }
+
+          const glassesMaterial = glassesLensMaterial.current
+
+          if (!originalLensColours.current.has(glassesMaterial)) {
+            originalLensColours.current.set(glassesMaterial, glassesMaterial.color.clone())
           }
 
           if (selectedLensColour?.name === 'original') {
-            material.color.copy(originalLensColours.current.get(material))
+            glassesMaterial.color.copy(originalLensColours.current.get(glassesMaterial))
           } else {
-            material.color.set(selectedLensColour?.hex ?? '#ffffff')
+            glassesMaterial.color.set(selectedLensColour?.hex ?? '#ffffff')
           }
         })
     })
