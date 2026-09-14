@@ -1,23 +1,77 @@
 import { useEffect, useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { Center, Environment, OrbitControls } from '@react-three/drei'
+import { Vector3 } from 'three'
 import Model from './Model'
 
 
 const DEFAULT_CAMERA_POSITION = [-2.5, 2, 5.8]
 const DEFAULT_CAMERA_TARGET = [0, 0.7, 0]
+const CAMERA_FOCUSES = {
+    laser: { position: [3.6, 1.7, 5.2], target: [0.15, 0.75, 0] },
+    top: { position: [0, 3.1, 5.2], target: [0, 0.95, 0] },
+    zoom: { position: [3.6, 1.7, 5.2], target: [0.15, 0.75, 0] },
+}
 
-function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
+function CameraController({ selectedAttachments, cameraResetKey }) {
     const controlsRef = useRef(null)
+    const cameraPositionTarget = useRef(new Vector3(...DEFAULT_CAMERA_POSITION))
+    const cameraLookTarget = useRef(new Vector3(...DEFAULT_CAMERA_TARGET))
+    const isCameraTransitioning = useRef(false)
+
+    useFrame((_, delta) => {
+        if (!isCameraTransitioning.current || !controlsRef.current) return
+
+        const controls = controlsRef.current
+        const smoothing = 1 - Math.exp(-5 * delta)
+
+        controls.object.position.lerp(cameraPositionTarget.current, smoothing)
+        controls.target.lerp(cameraLookTarget.current, smoothing)
+        controls.update()
+
+        if (
+            controls.object.position.distanceTo(cameraPositionTarget.current) < 0.01
+            && controls.target.distanceTo(cameraLookTarget.current) < 0.01
+        ) {
+            isCameraTransitioning.current = false
+        }
+    })
 
     useEffect(() => {
         const controls = controlsRef.current
         if (!controls) return
 
-        controls.object.position.set(...DEFAULT_CAMERA_POSITION)
-        controls.target.set(...DEFAULT_CAMERA_TARGET)
-        controls.update()
+        cameraPositionTarget.current.set(...DEFAULT_CAMERA_POSITION)
+        cameraLookTarget.current.set(...DEFAULT_CAMERA_TARGET)
+        isCameraTransitioning.current = true
     }, [cameraResetKey])
+
+    useEffect(() => {
+        const selectedAttachment = selectedAttachments.at(-1)
+        const focus = CAMERA_FOCUSES[selectedAttachment]
+
+        if (!focus) {
+            cameraPositionTarget.current.set(...DEFAULT_CAMERA_POSITION)
+            cameraLookTarget.current.set(...DEFAULT_CAMERA_TARGET)
+        } else {
+            cameraPositionTarget.current.set(...focus.position)
+            cameraLookTarget.current.set(...focus.target)
+        }
+
+        isCameraTransitioning.current = true
+    }, [selectedAttachments])
+
+    return (
+        <OrbitControls
+            ref={controlsRef}
+            minDistance={3}
+            maxDistance={8}
+            enablePan={false}
+        />
+    )
+}
+
+function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
     
     return (
     <Canvas
@@ -51,11 +105,9 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
             />
         </Center>
 
-        <OrbitControls
-            ref={controlsRef}
-            minDistance={3}
-            maxDistance={8}
-            enablePan={false}
+        <CameraController
+            selectedAttachments={selectedAttachments}
+            cameraResetKey={cameraResetKey}
         />
 
     </Canvas>

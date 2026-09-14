@@ -50,6 +50,7 @@
 
 .modelContainer {
   flex: 1;
+  height: calc(100vh - 3rem);
   min-width: 0;
 }
 
