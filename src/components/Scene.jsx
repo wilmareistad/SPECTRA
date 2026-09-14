@@ -97,21 +97,6 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
             color="#ffffff"
         />
 
-        {/* ta bort sen */}
-
-        <mesh position={[4, 5, 5]}>
-            <sphereGeometry args={[0.12, 16, 16]} />
-            <meshBasicMaterial color="#fff7e8" />
-        </mesh>
-        <mesh position={[-5, 2, 3]}>
-            <sphereGeometry args={[0.12, 16, 16]} />
-            <meshBasicMaterial color="#b9d8ff" />
-        </mesh>
-        <mesh position={[0, 2.5, -5]}>
-            <sphereGeometry args={[0.12, 16, 16]} />
-            <meshBasicMaterial color="#ffffff" />
-        </mesh>
-{/* hit */}
         <Center position={[0, 0.7, 0]}>
             <Model
                 colour={colour}
