@@ -8,11 +8,13 @@ function App() {
   const [colour, setColour] = useState('white')
   const [lensColour, setLensColour] = useState('original')
   const [selectedAttachments, setSelectedAttachments] = useState([])
+  const [cameraResetKey, setCameraResetKey] = useState(0)
 
   function resetConfiguration() {
     setColour('white')
     setLensColour('original')
     setSelectedAttachments([])
+    setCameraResetKey((value) => value + 1)
   }
 
   return (
@@ -36,6 +38,7 @@ function App() {
           colour={colour}
           lensColour={lensColour}
           selectedAttachments={selectedAttachments}
+          cameraResetKey={cameraResetKey}
         />
       </div>
 

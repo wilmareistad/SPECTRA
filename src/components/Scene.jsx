@@ -1,13 +1,28 @@
+import { useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Center, Environment, OrbitControls } from '@react-three/drei'
 import Model from './Model'
 
 
-function Scene({ colour, lensColour, selectedAttachments }) {
+const DEFAULT_CAMERA_POSITION = [-2.5, 2, 5.8]
+const DEFAULT_CAMERA_TARGET = [0, 0.7, 0]
+
+function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
+    const controlsRef = useRef(null)
+
+    useEffect(() => {
+        const controls = controlsRef.current
+        if (!controls) return
+
+        controls.object.position.set(...DEFAULT_CAMERA_POSITION)
+        controls.target.set(...DEFAULT_CAMERA_TARGET)
+        controls.update()
+    }, [cameraResetKey])
     
     return (
     <Canvas
         gl={{ antialias: true }}
+        camera={{ position: DEFAULT_CAMERA_POSITION, fov: 50 }}
     >
         <Environment preset="studio" />
         <ambientLight intensity={0.12} />
@@ -37,6 +52,7 @@ function Scene({ colour, lensColour, selectedAttachments }) {
         </Center>
 
         <OrbitControls
+            ref={controlsRef}
             minDistance={3}
             maxDistance={8}
             enablePan={false}
