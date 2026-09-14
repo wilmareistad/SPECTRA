@@ -4,7 +4,7 @@ import { LoopOnce } from 'three'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 
 function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
-  const { scene, animations } = useGLTF('/spectra_test.glb')
+  const { scene, animations } = useGLTF('/spectra_david_v1.glb')
   const { actions, mixer } = useAnimations(animations, scene)
   const originalLensColours = useRef(new Map())
 
@@ -53,7 +53,7 @@ function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
         : [object.material]
 
       materials
-        .filter((material) => material.name === 'white frame')
+        .filter((material) => material.name === 'texture_frame_combined_white')
         .forEach((material) => material.color.set(frameColour))
     })
   }, [colour, scene])
@@ -69,7 +69,7 @@ function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
         : [object.material]
 
       materials
-        .filter((material) => material.name === 'Material.001')
+        .filter((material) => material.name === 'glass')
         .forEach((material) => {
           if (!originalLensColours.current.has(material)) {
             originalLensColours.current.set(material, material.color.clone())
@@ -92,10 +92,9 @@ function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
 
   useEffect(() => {
     const actionNames = [
-      'Attach_1_HingeAction',
-      'Attach_1Action',
-      'CubeAction',
-      'CylinderAction',
+      'attach_laser_animation',
+      'top_attach_animation',
+      'zoom_attach_animation',
     ]
 
     const activeActions = actionNames
