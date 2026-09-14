@@ -19,7 +19,10 @@ export default function AttachmentsGrid({
           const isSelected = selectedAttachments.includes(attachment)
 
           return (
-            <div key={item.image} className={styles.attachmentItem}>
+            <div
+              key={item.image}
+              className={`${styles.attachmentItem} ${isSelected ? styles.selected : ''}`}
+            >
               <button
                 className={`${styles.attachmentImage} ${isSelected ? styles.selected : ''}`}
                 type="button"

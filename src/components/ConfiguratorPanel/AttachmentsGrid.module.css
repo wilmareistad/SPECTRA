@@ -4,10 +4,24 @@
   gap: 12px;
 }
 
+.attachmentItem {
+  display: flex;
+  min-width: 0;
+  aspect-ratio: 1;
+  flex-direction: column;
+  border: 1px solid transparent;
+}
+
+.attachmentItem:hover,
+.attachmentItem.selected {
+  border-color: var(--color-accent);
+}
+
 .attachmentImage {
   display: grid;
+  flex: 1;
   width: 100%;
-  min-height: 120px;
+  min-height: 0;
   place-items: center;
   overflow: hidden;
   padding: 0;
@@ -19,13 +33,11 @@
 .attachmentImage img {
   display: block;
   width: 100%;
-  height: 120px;
+  height: 100%;
   object-fit: contain;
 }
 
-.attachmentImage:hover,
-.attachmentImage:focus-visible,
-.attachmentImage.selected {
+.attachmentImage:focus-visible {
   border-color: var(--color-accent);
 }
 
