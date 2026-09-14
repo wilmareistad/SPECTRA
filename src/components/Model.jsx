@@ -53,7 +53,11 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
 
       scene.traverse((object) => {
         if (!object.isMesh) return
-        if (!['glasses_frame', 'glasses_frame_arms'].includes(object.name)) return
+        const objectName = object.name.toLowerCase()
+        const isFrame = ['glasses_frame', 'glasses_frame_arms'].includes(objectName)
+        const isAttachment = objectName.startsWith('attach_top_')
+
+        if (!isFrame && !isAttachment) return
 
         object.material = frameMaterial
       })
