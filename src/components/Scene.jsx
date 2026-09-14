@@ -78,25 +78,40 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
         gl={{ antialias: true }}
         camera={{ position: DEFAULT_CAMERA_POSITION, fov: 50 }}
     >
-        <Environment preset="studio" />
-        <ambientLight intensity={0.12} />
+        <Environment preset="studio" environmentIntensity={0.3} />
+        <ambientLight intensity={0.1 * 0} />
 
         <directionalLight
             position={[4, 5, 5]}
-            intensity={1.6}
+            intensity={0.56 * 0}
             color="#fff7e8"
         />
         <directionalLight
             position={[-5, 2, 3]}
-            intensity={0.7}
+            intensity={0.16 * 0}
             color="#b9d8ff"
         />
         <directionalLight
-            position={[0, 4, -5]}
-            intensity={1.1}
+            position={[0, 2.5, -5]}
+            intensity={0.4 * 0}
             color="#ffffff"
         />
 
+        {/* ta bort sen */}
+
+        <mesh position={[4, 5, 5]}>
+            <sphereGeometry args={[0.12, 16, 16]} />
+            <meshBasicMaterial color="#fff7e8" />
+        </mesh>
+        <mesh position={[-5, 2, 3]}>
+            <sphereGeometry args={[0.12, 16, 16]} />
+            <meshBasicMaterial color="#b9d8ff" />
+        </mesh>
+        <mesh position={[0, 2.5, -5]}>
+            <sphereGeometry args={[0.12, 16, 16]} />
+            <meshBasicMaterial color="#ffffff" />
+        </mesh>
+{/* hit */}
         <Center position={[0, 0.7, 0]}>
             <Model
                 colour={colour}
