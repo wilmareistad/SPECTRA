@@ -1,8 +1,7 @@
 export const COLOURS = [
-  { name: 'white', hex: '#bdbcbc' },
+  { name: 'white', hex: '#9c9b9b' },
   { name: 'black', hex: '#000000' },
   { name: 'green', hex: '#383e35' },
-  { name: 'beige', hex: '#c8b79a' },
 ]
 
 export const LENSCOLOURS = [

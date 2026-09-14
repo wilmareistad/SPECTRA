@@ -78,7 +78,7 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
         gl={{ antialias: true }}
         camera={{ position: DEFAULT_CAMERA_POSITION, fov: 50 }}
     >
-        <Environment preset="studio" environmentIntensity={0.3} />
+        <Environment preset="studio" environmentIntensity={0.75} />
         <ambientLight intensity={0.1} />
 
         <directionalLight
