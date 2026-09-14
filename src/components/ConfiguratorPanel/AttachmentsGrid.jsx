@@ -7,29 +7,40 @@ const ITEMS = [
 ]
 
 export default function AttachmentsGrid({
-  attach1Visible,
-  onAttach1VisibilityChange,
+  selectedAttachments,
+  onAttachmentSelect,
 }) {
   return (
     <div className={styles.picker}>
       <h3>[ATTACHEMENTS]</h3>
       <div className={styles.attachmentsGrid}>
-        {ITEMS.map((item) => (
-          <div key={item.image} className={styles.attachmentItem}>
-            <div className={styles.attachmentImage}>
-              <img src={item.image} alt={item.name} />
+        {ITEMS.map((item) => {
+          const attachment = item.name.toLowerCase()
+          const isSelected = selectedAttachments.includes(attachment)
+
+          return (
+            <div
+              key={item.image}
+              className={`${styles.attachmentItem} ${isSelected ? styles.selected : ''}`}
+            >
+              <button
+                className={`${styles.attachmentImage} ${isSelected ? styles.selected : ''}`}
+                type="button"
+                onClick={() => onAttachmentSelect(
+                  isSelected
+                    ? selectedAttachments.filter((value) => value !== attachment)
+                    : [...selectedAttachments, attachment],
+                )}
+                aria-label={`Select ${item.name} attachment`}
+                aria-pressed={isSelected}
+              >
+                <img src={item.image} alt={item.name} />
+              </button>
+              <p>{item.name} <span>{item.price}</span></p>
             </div>
-            <p>{item.name} <span>{item.price}</span></p>
-          </div>
-        ))}
+          )
+        })}
       </div>
-      <button
-        className={styles.visibilityButton}
-        type="button"
-        onClick={() => onAttach1VisibilityChange(!attach1Visible)}
-      >
-        Attach 1: {attach1Visible ? 'On' : 'Off'}
-      </button>
     </div>
   )
 }
