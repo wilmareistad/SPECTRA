@@ -79,21 +79,21 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
         camera={{ position: DEFAULT_CAMERA_POSITION, fov: 50 }}
     >
         <Environment preset="studio" environmentIntensity={0.3} />
-        <ambientLight intensity={0.1 * 0} />
+        <ambientLight intensity={0.1} />
 
         <directionalLight
             position={[4, 5, 5]}
-            intensity={0.56 * 0}
+            intensity={1}
             color="#fff7e8"
         />
         <directionalLight
             position={[-5, 2, 3]}
-            intensity={0.16 * 0}
+            intensity={1}
             color="#b9d8ff"
         />
         <directionalLight
             position={[0, 2.5, -5]}
-            intensity={0.4 * 0}
+            intensity={1}
             color="#ffffff"
         />
 
