@@ -3,12 +3,13 @@ import { useAnimations, useGLTF } from '@react-three/drei'
 import { LoopOnce } from 'three'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 
-function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
+function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
   const { scene, animations, materials, parser } = useGLTF('/spectra_david_v1.glb')
-  const { actions, mixer } = useAnimations(animations, scene)
+  const { actions } = useAnimations(animations, scene)
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
   const frameMaterials = useRef({ white: null, black: null })
+  const previousAttachments = useRef([])
 
   useEffect(() => {
     const modelParts = []
@@ -123,64 +124,48 @@ function Model({ colour, lensColour, attach1Visible, ...modelProps }) {
   }, [lensColour, scene])
 
   useEffect(() => {
-    const attach1 = scene.getObjectByName('Attach_1_Hinge')
+    const attachmentPrefixes = ['attach_laser_', 'attach_top_', 'attach_zoom_']
+    const selectedPrefixes = selectedAttachments.map(
+      (attachment) => `attach_${attachment}_`,
+    )
 
-    if (attach1) attach1.visible = attach1Visible
-  }, [attach1Visible, scene])
+    scene.traverse((object) => {
+      const objectName = object.name.toLowerCase()
+      const isAttachment = attachmentPrefixes.some((prefix) => objectName.startsWith(prefix))
+
+      if (isAttachment) {
+        object.visible = selectedPrefixes.some((prefix) => objectName.startsWith(prefix))
+      }
+    })
+  }, [selectedAttachments, scene])
 
   useEffect(() => {
-    const actionNames = [
-      'attach_laser_animation',
-      'top_attach_animation',
-      'zoom_attach_animation',
-    ]
-
-    const activeActions = actionNames
-      .map((name) => actions[name])
-      .filter(Boolean)
-
-    const finishedActions = new Set()
-    let phase = 'forward'
-
-    const playReverse = () => {
-      phase = 'reverse'
-      finishedActions.clear()
-
-      activeActions.forEach((action) => {
-        action.time = action.getClip().duration
-        action.timeScale = -1
-        action.paused = false
-        action.play()
-      })
+    const animationNames = {
+      laser: 'attach_laser_animation',
+      top: 'top_attach_animation',
+      zoom: 'zoom_attach_animation',
     }
+    const newlySelected = selectedAttachments.filter(
+      (attachment) => !previousAttachments.current.includes(attachment),
+    )
 
-    const handleFinished = (event) => {
-      if (!activeActions.includes(event.action)) return
+    newlySelected.forEach((attachment) => {
+      const action = actions[animationNames[attachment]]
+      if (!action) return
 
-      finishedActions.add(event.action)
-
-      if (finishedActions.size !== activeActions.length) return
-
-      if (phase === 'forward') {
-        playReverse()
-      }
-    }
-
-    mixer.addEventListener('finished', handleFinished)
-
-    activeActions.forEach((action) => {
-      action
-        .reset()
-        .setLoop(LoopOnce, 1)
-      action.clampWhenFinished = true
-      action.play()
+      action.reset().setLoop(LoopOnce, 1).play()
     })
 
-    return () => {
-      mixer.removeEventListener('finished', handleFinished)
-      activeActions.forEach((action) => action.stop())
-    }
-  }, [actions, mixer])
+    previousAttachments.current
+      .filter((attachment) => !selectedAttachments.includes(attachment))
+      .forEach((attachment) => actions[animationNames[attachment]]?.stop())
+
+    previousAttachments.current = selectedAttachments
+  }, [actions, selectedAttachments])
+
+  useEffect(() => () => {
+    Object.values(actions).forEach((action) => action.stop())
+  }, [actions])
 
   return <primitive object={scene} {...modelProps} />
 }

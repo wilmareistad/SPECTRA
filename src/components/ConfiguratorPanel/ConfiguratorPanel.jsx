@@ -10,8 +10,8 @@ export default function ConfiguratorPanel({
   onColourChange,
   lensColour,
   onLensColourChange,
-  attach1Visible,
-  onAttach1VisibilityChange,
+  selectedAttachments,
+  onAttachmentSelect,
 }) {
   return (
     <div className={styles.panel}>
@@ -26,8 +26,8 @@ export default function ConfiguratorPanel({
       </div>
       <div className={styles.section}>
         <AttachmentsGrid
-          attach1Visible={attach1Visible}
-          onAttach1VisibilityChange={onAttach1VisibilityChange}
+          selectedAttachments={selectedAttachments}
+          onAttachmentSelect={onAttachmentSelect}
         />
       </div>
       <div className={styles.priceSection}>

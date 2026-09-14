@@ -3,7 +3,7 @@ import { Center, Environment, OrbitControls } from '@react-three/drei'
 import Model from './Model'
 
 
-function Scene({ colour, lensColour, attach1Visible }) {
+function Scene({ colour, lensColour, selectedAttachments }) {
     
     return (
     <Canvas
@@ -32,7 +32,7 @@ function Scene({ colour, lensColour, attach1Visible }) {
             <Model
                 colour={colour}
                 lensColour={lensColour}
-                attach1Visible={attach1Visible}
+                selectedAttachments={selectedAttachments}
             />
         </Center>
 

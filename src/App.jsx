@@ -7,12 +7,12 @@ import Scene from './components/Scene'
 function App() {
   const [colour, setColour] = useState('white')
   const [lensColour, setLensColour] = useState('original')
-  const [attach1Visible, setAttach1Visible] = useState(true)
+  const [selectedAttachments, setSelectedAttachments] = useState([])
 
   function resetConfiguration() {
     setColour('white')
     setLensColour('original')
-    setAttach1Visible(true)
+    setSelectedAttachments([])
   }
 
   return (
@@ -35,7 +35,7 @@ function App() {
         <Scene
           colour={colour}
           lensColour={lensColour}
-          attach1Visible={attach1Visible}
+          selectedAttachments={selectedAttachments}
         />
       </div>
 
@@ -45,8 +45,8 @@ function App() {
           onColourChange={setColour}
           lensColour={lensColour}
           onLensColourChange={setLensColour}
-          attach1Visible={attach1Visible}
-          onAttach1VisibilityChange={setAttach1Visible}
+          selectedAttachments={selectedAttachments}
+          onAttachmentSelect={setSelectedAttachments}
         />
       </div>
     </main>
