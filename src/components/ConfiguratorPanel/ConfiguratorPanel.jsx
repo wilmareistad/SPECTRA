@@ -31,7 +31,7 @@ export default function ConfiguratorPanel({
         />
       </div>
       <div className={styles.priceSection}>
-        <PriceBar />
+        <PriceBar selectedAttachments={selectedAttachments} />
       </div>
     </div>
   )
