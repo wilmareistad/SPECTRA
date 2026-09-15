@@ -4,7 +4,7 @@ import { LoopOnce } from 'three'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 
 function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
-  const { scene, animations, materials, parser } = useGLTF('/spectra_david_v1.glb')
+  const { scene, animations, materials } = useGLTF('/spectra_david_v1.glb')
   const { actions } = useAnimations(animations, scene)
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
@@ -76,10 +76,15 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
       }
     })
 
-    const updateFrameMaterial = async () => {
+    const updateFrameMaterial = () => {
       if (colour === 'black' && !frameMaterials.current.black) {
         frameMaterials.current.black = materials.texture_frame_combined_black
-          ?? await parser?.getDependency('material', 5)
+          ?? frameMaterials.current.white?.clone()
+
+        if (!materials.texture_frame_combined_black && frameMaterials.current.black) {
+          frameMaterials.current.black.color.set('#000000')
+          frameMaterials.current.black.needsUpdate = true
+        }
       }
 
       if (colour !== 'black' && !frameMaterials.current.colour) {
@@ -98,7 +103,7 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
     return () => {
       cancelled = true
     }
-  }, [colour, materials, parser, scene])
+  }, [colour, materials, scene])
 
   useEffect(() => {
     const selectedLensColour = LENSCOLOURS.find((item) => item.name === lensColour)
