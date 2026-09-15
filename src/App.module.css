@@ -1,14 +1,81 @@
 .app {
+  position: relative;
   display: flex;
   min-height: 100vh;
+  padding: 1.5rem;
+  background-image: url('/assets/background_gradient.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.header {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  right: calc(429px + 1.5rem);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 1rem;
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 1.5rem;
+}
+
+.resetButton {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.5rem;
+}
+
+.resetButton:hover,
+.resetButton:focus-visible {
+  background: var(--color-accent);
+  color: var(--color-bg);
 }
 
 .modelContainer {
   flex: 1;
+  height: calc(100vh - 3rem);
   min-width: 0;
 }
 
 .componentsContainer {
   width: 429px;
   flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .header {
+    right: 1.5rem;
+  }
+
+  .modelContainer {
+    flex: 0 0 50vh;
+    height: 50vh;
+    width: 100%;
+  }
+
+  .componentsContainer {
+    width: 100%;
+  }
+
 }

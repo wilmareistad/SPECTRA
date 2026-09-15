@@ -1,0 +1,32 @@
+.sizeOptions {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+	width: 100%;
+}
+
+.button {
+	width: 100%;
+    padding: 8px 18px;
+	border: 1px solid transparent;
+	border-radius: var(--border-radius);
+	background: transparent;
+	color: var(--color-accent);
+	cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible,
+.selected {
+	border-color: var(--color-accent);
+}
+
+.button:focus-visible {
+	outline: 2px solid var(--color-text);
+	outline-offset: 3px;
+}
+
+.picker p {
+	margin: 12px 0 0;
+	color: var(--color-Grey-Scale-300);
+}
