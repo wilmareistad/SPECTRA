@@ -1,6 +1,21 @@
 .panel {
+	position: relative;
 	display: flex;
 	flex-direction: column;
+	border: 1px solid var(--Brand-Color-Grey);
+}
+
+.panel::before {
+	position: absolute;
+	inset: -7px;
+	background:
+		linear-gradient(var(--color-accent), var(--color-accent)) top left / 14px 14px no-repeat,
+		linear-gradient(var(--color-accent), var(--color-accent)) top right / 14px 14px no-repeat,
+		linear-gradient(var(--color-accent), var(--color-accent)) bottom left / 14px 14px no-repeat,
+		linear-gradient(var(--color-accent), var(--color-accent)) bottom right / 14px 14px no-repeat;
+	content: '';
+	z-index: 1;
+	pointer-events: none;
 }
 
 .section {
