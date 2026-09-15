@@ -68,7 +68,7 @@ function App() {
       </div>
     )}
 
-    <main className={styles.app}>
+    <main className={`${styles.app} ${showIntro && !introExiting ? styles.waitingForIntro : ''}`}>
       <header className={styles.header}>
         <img className={styles.logo} src="/assets/LOGGA.svg" alt="SPECTRA" />
 
