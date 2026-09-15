@@ -22,19 +22,23 @@
   margin-right: 1rem;
 }
 
-.header h1 {
-  margin: 0;
-  color: var(--color-accent);
-  font-size: 1.5rem;
+.logo {
+  width: 130px;
+  height: auto;
 }
 
-.resetButton {
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconButton {
   display: grid;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   place-items: center;
   border: 1px solid var(--color-accent);
-  border-radius: 50%;
   background: transparent;
   color: var(--color-accent);
   cursor: pointer;
@@ -42,8 +46,13 @@
   font-size: 1.5rem;
 }
 
-.resetButton:hover,
-.resetButton:focus-visible {
+.iconButton img {
+  width: 32px;
+  height: 32px;
+}
+
+.iconButton:hover,
+.iconButton:focus-visible {
   background: var(--color-accent);
   color: var(--color-bg);
 }
