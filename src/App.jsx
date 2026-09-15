@@ -40,7 +40,7 @@ function App() {
     <>
     <main className={styles.app}>
       <header className={styles.header}>
-        <img className={styles.logo} src="/assets/Logo_SVG.svg" alt="SPECTRA" />
+        <img className={styles.logo} src="/assets/LOGGA.svg" alt="SPECTRA" />
 
         <div className={styles.headerActions}>
           <button
@@ -50,7 +50,7 @@ function App() {
             aria-label="Reset configuration"
             title="Reset configuration"
           >
-            <img src="/assets/Refresh_button.svg" alt="" />
+            <span className={`${styles.buttonIcon} ${styles.refreshIcon}`} />
           </button>
 
           <button
@@ -60,7 +60,7 @@ function App() {
             aria-label="Shuffle configuration"
             title="Shuffle configuration"
           >
-            <img src="/assets/Shuffle_button.svg" alt="" />
+            <span className={`${styles.buttonIcon} ${styles.shuffleIcon}`} />
           </button>
         </div>
       </header>
