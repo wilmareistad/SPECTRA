@@ -10,6 +10,8 @@ export default function ConfiguratorPanel({
   onColourChange,
   lensColour,
   onLensColourChange,
+  size,
+  onSizeChange,
   selectedAttachments,
   onAttachmentSelect,
 }) {
@@ -22,7 +24,7 @@ export default function ConfiguratorPanel({
         <LensTypePicker value={lensColour} onChange={onLensColourChange} />
       </div>
       <div className={styles.section}>
-        <SizePicker />
+        <SizePicker value={size} onChange={onSizeChange} />
       </div>
       <div className={styles.section}>
         <AttachmentsGrid

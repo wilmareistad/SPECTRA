@@ -7,12 +7,14 @@ import Scene from './components/Scene'
 function App() {
   const [colour, setColour] = useState('white')
   const [lensColour, setLensColour] = useState('original')
+  const [size, setSize] = useState('Standard')
   const [selectedAttachments, setSelectedAttachments] = useState([])
   const [cameraResetKey, setCameraResetKey] = useState(0)
 
   function resetConfiguration() {
     setColour('white')
     setLensColour('original')
+    setSize('Standard')
     setSelectedAttachments([])
     setCameraResetKey((value) => value + 1)
   }
@@ -37,6 +39,7 @@ function App() {
         <Scene
           colour={colour}
           lensColour={lensColour}
+          size={size}
           selectedAttachments={selectedAttachments}
           cameraResetKey={cameraResetKey}
         />
@@ -48,6 +51,8 @@ function App() {
           onColourChange={setColour}
           lensColour={lensColour}
           onLensColourChange={setLensColour}
+          size={size}
+          onSizeChange={setSize}
           selectedAttachments={selectedAttachments}
           onAttachmentSelect={setSelectedAttachments}
         />
