@@ -9,7 +9,6 @@
 	width: 100%;
     padding: 8px 18px;
 	border: 1px solid transparent;
-	border-radius: var(--border-radius);
 	background: transparent;
 	color: var(--color-accent);
 	cursor: pointer;

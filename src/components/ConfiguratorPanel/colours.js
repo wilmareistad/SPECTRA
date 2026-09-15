@@ -1,5 +1,5 @@
 export const COLOURS = [
-  { name: 'white', hex: '#9c9b9b' },
+  { name: 'white', hex: '#9c9b9b', displayHex: '#eeebeb' },
   { name: 'black', hex: '#000000' },
   { name: 'green', hex: '#383e35' },
 ]

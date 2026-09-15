@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useAnimations, useGLTF } from '@react-three/drei'
-import { LoopOnce } from 'three'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
+import useModelAttachments from './useModelAttachments'
 
 function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
   const { scene, animations, materials } = useGLTF('/spectra_david_v1.glb')
@@ -9,7 +9,8 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
   const frameMaterials = useRef({ white: null, black: null, colour: null })
-  const previousAttachments = useRef([])
+
+  useModelAttachments(scene, actions, selectedAttachments)
 
   useEffect(() => {
     const modelParts = []
@@ -134,65 +135,6 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
         })
     })
   }, [lensColour, scene])
-
-  useEffect(() => {
-    const attachmentPrefixes = [
-      'attach_laser_',
-      'attach_top_',
-      'attach_zoom_',
-      'attach_solarpanel_',
-      'attach_scope_',
-      'attach_tactical_rails_',
-    ]
-    const selectedPrefixes = selectedAttachments.map(
-      (attachment) => attachment === 'solar panel'
-        ? ['attach_solarpanel_', 'attach_tactical_rails_']
-        : [`attach_${attachment}_`],
-    )
-
-    scene.traverse((object) => {
-      const objectName = object.name.toLowerCase()
-      const isAttachment = attachmentPrefixes.some((prefix) => objectName.startsWith(prefix))
-
-      if (isAttachment) {
-        object.visible = selectedPrefixes.flat().some((prefix) => objectName.startsWith(prefix))
-      }
-    })
-  }, [selectedAttachments, scene])
-
-  useEffect(() => {
-    const animationNames = {
-      laser: ['attach_laser_animation'],
-      top: ['top_attach_animation'],
-      zoom: ['zoom_attach_animation'],
-      'solar panel': ['Animation'],
-      scope: ['Attach_1_HingeAction', 'Attach_1Action', 'CubeAction', 'CylinderAction'],
-    }
-    const newlySelected = selectedAttachments.filter(
-      (attachment) => !previousAttachments.current.includes(attachment),
-    )
-
-    newlySelected.forEach((attachment) => {
-      animationNames[attachment]?.forEach((animationName) => {
-        const action = actions[animationName]
-        if (!action) return
-
-        action.reset().setLoop(LoopOnce, 1).play()
-      })
-    })
-
-    previousAttachments.current
-      .filter((attachment) => !selectedAttachments.includes(attachment))
-      .forEach((attachment) => {
-        animationNames[attachment]?.forEach((animationName) => actions[animationName]?.stop())
-      })
-
-    previousAttachments.current = selectedAttachments
-  }, [actions, selectedAttachments])
-
-  useEffect(() => () => {
-    Object.values(actions).forEach((action) => action.stop())
-  }, [actions])
 
   return <primitive object={scene} {...modelProps} />
 }

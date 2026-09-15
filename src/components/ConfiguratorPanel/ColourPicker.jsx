@@ -10,7 +10,7 @@ export default function ColourPicker({ value, onChange }) {
           <button
             key={c.name}
             className={`${styles.swatch} ${value === c.name ? styles.selected : ''}`}
-            style={{ backgroundColor: c.hex }}
+            style={{ backgroundColor: c.displayHex ?? c.hex }}
             onClick={() => onChange(c.name)}
           />
         ))}
