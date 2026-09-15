@@ -69,6 +69,9 @@ function CameraController({ selectedAttachments, cameraResetKey }) {
             minDistance={5}
             maxDistance={10}
             enablePan={false}
+            onStart={() => {
+                isCameraTransitioning.current = false
+            }}
         />
     )
 }
