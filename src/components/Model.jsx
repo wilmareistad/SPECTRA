@@ -4,7 +4,7 @@ import { LoopOnce } from 'three'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 
 function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
-  const { scene, animations, materials, parser } = useGLTF('/spectra_david_v1.glb')
+  const { scene, animations, materials } = useGLTF('/spectra_david_v1.glb')
   const { actions } = useAnimations(animations, scene)
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
@@ -55,9 +55,9 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
         if (!object.isMesh) return
         const objectName = object.name.toLowerCase()
         const isFrame = ['glasses_frame', 'glasses_frame_arms'].includes(objectName)
-        const isAttachment = objectName.startsWith('attach_top_')
+        const isTopAttachmentCase = objectName === 'attach_top_case'
 
-        if (!isFrame && !isAttachment) return
+        if (!isFrame && !isTopAttachmentCase) return
 
         object.material = frameMaterial
       })
@@ -76,10 +76,15 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
       }
     })
 
-    const updateFrameMaterial = async () => {
+    const updateFrameMaterial = () => {
       if (colour === 'black' && !frameMaterials.current.black) {
         frameMaterials.current.black = materials.texture_frame_combined_black
-          ?? await parser?.getDependency('material', 5)
+          ?? frameMaterials.current.white?.clone()
+
+        if (!materials.texture_frame_combined_black && frameMaterials.current.black) {
+          frameMaterials.current.black.color.set('#000000')
+          frameMaterials.current.black.needsUpdate = true
+        }
       }
 
       if (colour !== 'black' && !frameMaterials.current.colour) {
@@ -98,7 +103,7 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
     return () => {
       cancelled = true
     }
-  }, [colour, materials, parser, scene])
+  }, [colour, materials, scene])
 
   useEffect(() => {
     const selectedLensColour = LENSCOLOURS.find((item) => item.name === lensColour)
@@ -131,9 +136,18 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
   }, [lensColour, scene])
 
   useEffect(() => {
-    const attachmentPrefixes = ['attach_laser_', 'attach_top_', 'attach_zoom_']
+    const attachmentPrefixes = [
+      'attach_laser_',
+      'attach_top_',
+      'attach_zoom_',
+      'attach_solarpanel_',
+      'attach_scope_',
+      'attach_tactical_rails_',
+    ]
     const selectedPrefixes = selectedAttachments.map(
-      (attachment) => `attach_${attachment}_`,
+      (attachment) => attachment === 'solar panel'
+        ? ['attach_solarpanel_', 'attach_tactical_rails_']
+        : [`attach_${attachment}_`],
     )
 
     scene.traverse((object) => {
@@ -141,31 +155,37 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
       const isAttachment = attachmentPrefixes.some((prefix) => objectName.startsWith(prefix))
 
       if (isAttachment) {
-        object.visible = selectedPrefixes.some((prefix) => objectName.startsWith(prefix))
+        object.visible = selectedPrefixes.flat().some((prefix) => objectName.startsWith(prefix))
       }
     })
   }, [selectedAttachments, scene])
 
   useEffect(() => {
     const animationNames = {
-      laser: 'attach_laser_animation',
-      top: 'top_attach_animation',
-      zoom: 'zoom_attach_animation',
+      laser: ['attach_laser_animation'],
+      top: ['top_attach_animation'],
+      zoom: ['zoom_attach_animation'],
+      'solar panel': ['Animation'],
+      scope: ['Attach_1_HingeAction', 'Attach_1Action', 'CubeAction', 'CylinderAction'],
     }
     const newlySelected = selectedAttachments.filter(
       (attachment) => !previousAttachments.current.includes(attachment),
     )
 
     newlySelected.forEach((attachment) => {
-      const action = actions[animationNames[attachment]]
-      if (!action) return
+      animationNames[attachment]?.forEach((animationName) => {
+        const action = actions[animationName]
+        if (!action) return
 
-      action.reset().setLoop(LoopOnce, 1).play()
+        action.reset().setLoop(LoopOnce, 1).play()
+      })
     })
 
     previousAttachments.current
       .filter((attachment) => !selectedAttachments.includes(attachment))
-      .forEach((attachment) => actions[animationNames[attachment]]?.stop())
+      .forEach((attachment) => {
+        animationNames[attachment]?.forEach((animationName) => actions[animationName]?.stop())
+      })
 
     previousAttachments.current = selectedAttachments
   }, [actions, selectedAttachments])
