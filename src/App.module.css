@@ -14,12 +14,13 @@
   inset: 0;
   z-index: 100;
   background: var(--color-bg);
-  transition: opacity 800ms ease, transform 800ms ease;
+  transition: opacity 1100ms ease-in-out, transform 1100ms ease-in-out;
+  will-change: transform;
 }
 
 .heroOverlay.exiting {
   opacity: 0;
-  transform: translateY(-8%);
+  transform: translateY(-100%);
   pointer-events: none;
 }
 
