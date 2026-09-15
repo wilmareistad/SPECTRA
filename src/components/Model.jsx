@@ -55,9 +55,8 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
         if (!object.isMesh) return
         const objectName = object.name.toLowerCase()
         const isFrame = ['glasses_frame', 'glasses_frame_arms'].includes(objectName)
-        const isAttachment = objectName.startsWith('attach_top_')
 
-        if (!isFrame && !isAttachment) return
+        if (!isFrame) return
 
         object.material = frameMaterial
       })

@@ -66,7 +66,7 @@ function CameraController({ selectedAttachments, cameraResetKey }) {
     return (
         <OrbitControls
             ref={controlsRef}
-            minDistance={3}
+            minDistance={5}
             maxDistance={10}
             enablePan={false}
         />
