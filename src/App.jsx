@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './App.module.css'
 import './App.css'
 import ConfiguratorPanel from './components/ConfiguratorPanel/ConfiguratorPanel'
@@ -7,11 +7,21 @@ import { COLOURS, LENSCOLOURS } from './components/ConfiguratorPanel/colours'
 import { ATTACHMENTS } from './components/ConfiguratorPanel/pricing'
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true)
+  const [introExiting, setIntroExiting] = useState(false)
   const [colour, setColour] = useState('white')
   const [lensColour, setLensColour] = useState('original')
   const [size, setSize] = useState('Standard')
   const [selectedAttachments, setSelectedAttachments] = useState([])
   const [cameraResetKey, setCameraResetKey] = useState(0)
+
+  useEffect(() => {
+    document.body.style.overflow = showIntro ? 'hidden' : ''
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showIntro])
 
   function resetConfiguration() {
     setColour('white')
@@ -36,8 +46,28 @@ function App() {
     )
   }
 
+  function finishIntro() {
+    setIntroExiting(true)
+
+    setTimeout(() => {
+      setShowIntro(false)
+    }, 800)
+  }
+
   return (
     <>
+    {showIntro && (
+      <div className={`${styles.heroOverlay} ${introExiting ? styles.exiting : ''}`}>
+        <video
+          autoPlay
+          muted
+          playsInline
+          onEnded={finishIntro}
+          src="/assets/testanim.mp4"
+        />
+      </div>
+    )}
+
     <main className={styles.app}>
       <header className={styles.header}>
         <img className={styles.logo} src="/assets/LOGGA.svg" alt="SPECTRA" />
