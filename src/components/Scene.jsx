@@ -7,6 +7,11 @@ import Model from './Model'
 
 const DEFAULT_CAMERA_POSITION = [-2.75, 2.1, 6.5]
 const DEFAULT_CAMERA_TARGET = [0, 0.1, 0]
+const MODEL_SCALES = {
+    Small: 0.98,
+    Standard: 1,
+    Large: 1.02,
+}
 const CAMERA_FOCUSES = {
     laser: { position: [4, 1.8, 6], target: [0.15, 0.4, 0] },
     top: { position: [0, 3.3, 6], target: [0, 0.65, 0] },
@@ -76,7 +81,7 @@ function CameraController({ selectedAttachments, cameraResetKey }) {
     )
 }
 
-function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
+function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }) {
     
     return (
     <Canvas
@@ -106,6 +111,7 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
             <Model
                 colour={colour}
                 lensColour={lensColour}
+                scale={MODEL_SCALES[size]}
                 selectedAttachments={selectedAttachments}
             />
         </Center>
