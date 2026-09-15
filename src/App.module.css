@@ -23,7 +23,7 @@
 }
 
 .logo {
-  width: 130px;
+  width: 400px;
   height: auto;
 }
 
@@ -35,8 +35,8 @@
 
 .iconButton {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 50px;
+  height: 50px;
   place-items: center;
   border: 1px solid var(--color-accent);
   background: transparent;
@@ -46,15 +46,38 @@
   font-size: 1.5rem;
 }
 
-.iconButton img {
+.buttonIcon {
+  display: block;
   width: 32px;
   height: 32px;
+  background-color: var(--color-accent);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.refreshIcon {
+  mask-image: url('/assets/Refresh_button.svg');
+  -webkit-mask-image: url('/assets/Refresh_button.svg');
+}
+
+.shuffleIcon {
+  mask-image: url('/assets/Shuffle_button.svg');
+  -webkit-mask-image: url('/assets/Shuffle_button.svg');
 }
 
 .iconButton:hover,
 .iconButton:focus-visible {
   background: var(--color-accent);
   color: var(--color-bg);
+}
+
+.iconButton:hover .buttonIcon,
+.iconButton:focus-visible .buttonIcon {
+  background-color: var(--color-Grey-Scale-900);
 }
 
 .modelContainer {
