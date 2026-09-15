@@ -48,7 +48,9 @@ function useModelAttachments(scene, actions, selectedAttachments) {
         const action = actions[animationName]
         if (!action) return
 
-        action.reset().setLoop(LoopOnce, 1).play()
+        action.reset().setLoop(LoopOnce, 1)
+        action.clampWhenFinished = true
+        action.play()
       })
     })
 
