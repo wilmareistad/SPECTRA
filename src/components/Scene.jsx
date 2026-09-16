@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Center, Environment, OrbitControls, useGLTF } from '@react-three/drei'
+import { Center, Environment, OrbitControls } from '@react-three/drei'
 import { Vector3 } from 'three'
 import Model from './Model'
 
 
-const DEFAULT_CAMERA_POSITION = [-2.75, 2.1, 6.5]
+const DEFAULT_CAMERA_POSITION = [-2.1, 1.65, 5]
 const DEFAULT_CAMERA_TARGET = [0, 0.1, 0]
 const MODEL_SCALES = {
     Small: 0.98,
@@ -20,13 +20,13 @@ const CAMERA_FOCUSES = {
     'solar panel': { position: [-4.8, 2.3, 8.5], target: [-0.15, 0.55, 0] },
 }
 
-function DisplayCube() {
-    const { scene } = useGLTF('/kub.glb')
-
-    return <primitive object={scene} position={[0, -1.35, 0]} scale={[2.7, 1.35, 2.7]} />
-}
-
-useGLTF.preload('/kub.glb')
+// function DisplayCube() {
+//     const { scene } = useGLTF('/kub.glb')
+//
+//     return <primitive object={scene} position={[0, -1.35, 0]} scale={[2.7, 1.35, 2.7]} />
+// }
+//
+// useGLTF.preload('/kub.glb')
 
 function CameraController({ selectedAttachments, cameraResetKey }) {
     const controlsRef = useRef(null)
@@ -79,7 +79,7 @@ function CameraController({ selectedAttachments, cameraResetKey }) {
     return (
         <OrbitControls
             ref={controlsRef}
-            minDistance={5}
+            minDistance={4.8}
             maxDistance={10}
             enablePan={false}
             onStart={() => {
@@ -115,7 +115,7 @@ function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }
             color="#ffffff"
         />
 
-        <DisplayCube />
+        {/* <DisplayCube /> */}
 
         <Center position={[0, 0.7, 0]}>
             <Model
