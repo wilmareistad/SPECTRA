@@ -2,6 +2,7 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	max-height: 84vh;
 	border: 1px solid var(--Brand-Color-Grey);
 }
 
@@ -16,6 +17,16 @@
 	content: '';
 	z-index: 1;
 	pointer-events: none;
+}
+
+.panelContent {
+	min-height: 0;
+	overflow-y: auto;
+	flex: 1 1 auto;
+}
+
+.priceSection {
+	flex: 0 0 auto;
 }
 
 .section {
