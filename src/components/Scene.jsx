@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Center, Environment, OrbitControls } from '@react-three/drei'
+import { Center, Environment, Html, OrbitControls } from '@react-three/drei'
+import { Suspense } from 'react'
 import { Vector3 } from 'three'
+import styles from '../App.module.css'
 import Model from './Model'
 
 
@@ -89,6 +91,22 @@ function CameraController({ selectedAttachments, cameraResetKey }) {
     )
 }
 
+function LoadingIndicator() {
+    return (
+        <Html center>
+            <div className={styles.loadingIndicator}>
+                <span className={styles.loadingRing} />
+                <span className={styles.loadingLabel}>LOADING MODEL</span>
+                <span className={styles.loadingDots} aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                </span>
+            </div>
+        </Html>
+    )
+}
+
 function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }) {
     
     return (
@@ -96,6 +114,7 @@ function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }
         gl={{ antialias: true }}
         camera={{ position: DEFAULT_CAMERA_POSITION, fov: 50 }}
     >
+        <Suspense fallback={<LoadingIndicator />}>
         <Environment preset="studio" environmentIntensity={0.75} />
         <ambientLight intensity={0.1} />
 
@@ -130,6 +149,7 @@ function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }
             selectedAttachments={selectedAttachments}
             cameraResetKey={cameraResetKey}
         />
+        </Suspense>
 
     </Canvas>
   )

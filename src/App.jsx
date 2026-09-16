@@ -6,8 +6,10 @@ import Scene from './components/Scene'
 import { COLOURS, LENSCOLOURS } from './components/ConfiguratorPanel/colours'
 import { ATTACHMENTS } from './components/ConfiguratorPanel/pricing'
 
+const ENABLE_INTRO_VIDEO = true
+
 function App() {
-  const [showIntro, setShowIntro] = useState(true)
+  const [showIntro, setShowIntro] = useState(ENABLE_INTRO_VIDEO)
   const [introExiting, setIntroExiting] = useState(false)
   const [colour, setColour] = useState('white')
   const [lensColour, setLensColour] = useState('original')
@@ -63,6 +65,7 @@ function App() {
           muted
           playsInline
           onEnded={finishIntro}
+          onError={finishIntro}
           src="/assets/testanim.mp4"
         />
       </div>
