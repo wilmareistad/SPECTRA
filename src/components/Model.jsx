@@ -3,12 +3,17 @@ import { useAnimations, useGLTF } from '@react-three/drei'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 import useModelAttachments from './useModelAttachments'
 
+async function getMaterialByName(parser, name) {
+  const materialIndex = parser.json.materials?.findIndex((material) => material.name === name)
+  if (materialIndex === undefined || materialIndex < 0) return null
+  return parser.getDependency('material', materialIndex)
+}
+
 function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
-  const { scene, animations, materials } = useGLTF('/spectra_david_v2.glb')
+  const { scene, animations, parser } = useGLTF('/spectra_david_v5.glb')
   const { actions } = useAnimations(animations, scene)
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
-  const frameMaterials = useRef({ white: null, black: null, colour: null })
 
   useModelAttachments(scene, actions, selectedAttachments)
 
@@ -49,17 +54,18 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
     const selectedColour = COLOURS.find((item) => item.name === colour)
     let cancelled = false
 
+    const isFrameMesh = (object) => {
+      const objectMaterials = Array.isArray(object.material) ? object.material : [object.material]
+      return object.name.toLowerCase().includes('glasses_frame') || objectMaterials.some(
+        (material) => material?.name?.startsWith('texture_frame_combined_'),
+      )
+    }
+
     const applyFrameMaterial = (frameMaterial) => {
       if (!frameMaterial || cancelled) return
 
       scene.traverse((object) => {
-        if (!object.isMesh) return
-        const objectName = object.name.toLowerCase()
-        const isFrame = ['glasses_frame', 'glasses_frame_arms'].includes(objectName)
-        const isTopAttachmentCase = objectName === 'attach_top_case'
-
-        if (!isFrame && !isTopAttachmentCase) return
-
+        if (!object.isMesh || (!isFrameMesh(object) && object.name.toLowerCase() !== 'attach_top_case')) return
         object.material = frameMaterial
       })
 
@@ -69,34 +75,15 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
       }
     }
 
-    scene.traverse((object) => {
-      if (!object.isMesh) return
-      if (!['glasses_frame', 'glasses_frame_arms'].includes(object.name)) return
-      if (!frameMaterials.current.white && object.material) {
-        frameMaterials.current.white = object.material
-      }
-    })
+    const updateFrameMaterial = async () => {
+      const materialName = colour === 'black'
+        ? 'texture_frame_combined_black'
+        : 'texture_frame_combined_white'
+      const baseMaterial = await getMaterialByName(parser, materialName)
 
-    const updateFrameMaterial = () => {
-      if (colour === 'black' && !frameMaterials.current.black) {
-        frameMaterials.current.black = materials.texture_frame_combined_black
-          ?? frameMaterials.current.white?.clone()
+      if (cancelled || !baseMaterial) return
 
-        if (!materials.texture_frame_combined_black && frameMaterials.current.black) {
-          frameMaterials.current.black.color.set('#000000')
-          frameMaterials.current.black.needsUpdate = true
-        }
-      }
-
-      if (colour !== 'black' && !frameMaterials.current.colour) {
-        frameMaterials.current.colour = frameMaterials.current.white?.clone()
-      }
-
-      const frameMaterial = colour === 'black'
-        ? frameMaterials.current.black ?? frameMaterials.current.white
-        : frameMaterials.current.colour ?? frameMaterials.current.white
-
-      applyFrameMaterial(frameMaterial)
+      applyFrameMaterial(colour === 'green' ? baseMaterial.clone() : baseMaterial)
     }
 
     updateFrameMaterial()
@@ -104,7 +91,7 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
     return () => {
       cancelled = true
     }
-  }, [colour, materials, scene])
+  }, [colour, parser, scene])
 
   useEffect(() => {
     const selectedLensColour = LENSCOLOURS.find((item) => item.name === lensColour)

@@ -15,7 +15,12 @@ const ANIMATION_NAMES = {
   top: ['top_attach_animation'],
   zoom: ['zoom_attach_animation'],
   'solar panel': ['Animation'],
-  scope: ['Attach_1_HingeAction', 'Attach_1Action', 'CubeAction', 'CylinderAction'],
+  scope: [
+    'Attach_Animation_Hinge',
+    'Attatch_Animation_Scope_1',
+    'Attach_SCOPE_Animation_Dials',
+    'Attach_Animation_SCOPE_ring',
+  ],
 }
 
 function useModelAttachments(scene, actions, selectedAttachments) {
@@ -23,9 +28,17 @@ function useModelAttachments(scene, actions, selectedAttachments) {
 
   useEffect(() => {
     const selectedPrefixes = selectedAttachments.map(
-      (attachment) => attachment === 'solar panel'
-        ? ['attach_solarpanel_', 'attach_tactical_rails_']
-        : [`attach_${attachment}_`],
+      (attachment) => {
+        if (attachment === 'solar panel') {
+          return ['attach_solarpanel_', 'attach_tactical_rails_']
+        }
+
+        if (attachment === 'laser') {
+          return ['attach_laser_', 'attach_tactical_rails_']
+        }
+
+        return [`attach_${attachment}_`]
+      },
     )
 
     scene.traverse((object) => {
