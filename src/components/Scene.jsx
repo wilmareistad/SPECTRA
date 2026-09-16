@@ -5,7 +5,7 @@ import { Vector3 } from 'three'
 import Model from './Model'
 
 
-const DEFAULT_CAMERA_POSITION = [-1.78, 1.25, 4.28]
+const DEFAULT_CAMERA_POSITION = [-2.35, 1.1, 4.06]
 const DEFAULT_CAMERA_TARGET = [0, 0.1, 0]
 const MODEL_SCALES = {
     Small: 0.98,
