@@ -7,7 +7,7 @@ import styles from '../App.module.css'
 import Model from './Model'
 
 
-const DEFAULT_CAMERA_POSITION = [-2.75, 2.1, 6.5]
+const DEFAULT_CAMERA_POSITION = [-2.35, 1.1, 4.06]
 const DEFAULT_CAMERA_TARGET = [0, 0.1, 0]
 const MODEL_SCALES = {
     Small: 0.98,
@@ -21,6 +21,14 @@ const CAMERA_FOCUSES = {
     scope: { position: [-2.8, 2.05, 8.2], target: [-0.05, 0.5, 0] },
     'solar panel': { position: [-4.8, 2.3, 8.5], target: [-0.15, 0.55, 0] },
 }
+
+// function DisplayCube() {
+//     const { scene } = useGLTF('/kub.glb')
+//
+//     return <primitive object={scene} position={[0, -1.35, 0]} scale={[2.7, 1.35, 2.7]} />
+// }
+//
+// useGLTF.preload('/kub.glb')
 
 function CameraController({ selectedAttachments, cameraResetKey }) {
     const controlsRef = useRef(null)
@@ -73,7 +81,7 @@ function CameraController({ selectedAttachments, cameraResetKey }) {
     return (
         <OrbitControls
             ref={controlsRef}
-            minDistance={5}
+            minDistance={4.8}
             maxDistance={10}
             enablePan={false}
             onStart={() => {
@@ -125,6 +133,8 @@ function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }
             intensity={1}
             color="#ffffff"
         />
+
+        {/* <DisplayCube /> */}
 
         <Center position={[0, 0.7, 0]}>
             <Model

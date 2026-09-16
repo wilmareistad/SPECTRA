@@ -8,11 +8,11 @@
   background-position: center;
   background-repeat: no-repeat;
   transition: transform 1000ms ease-in-out;
-  will-change: transform;
 }
 
 .app.waitingForIntro {
   transform: translateY(100vh);
+  will-change: transform;
 }
 
 .heroOverlay {

@@ -4,7 +4,7 @@ import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
 import useModelAttachments from './useModelAttachments'
 
 function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
-  const { scene, animations, materials } = useGLTF('/spectra_david_v1.glb')
+  const { scene, animations, materials } = useGLTF('/spectra_david_v2.glb')
   const { actions } = useAnimations(animations, scene)
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
