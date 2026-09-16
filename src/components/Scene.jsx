@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Center, Environment, OrbitControls } from '@react-three/drei'
+import { Center, Environment, OrbitControls, useGLTF } from '@react-three/drei'
 import { Vector3 } from 'three'
 import Model from './Model'
 
@@ -19,6 +19,14 @@ const CAMERA_FOCUSES = {
     scope: { position: [-2.8, 2.05, 8.2], target: [-0.05, 0.5, 0] },
     'solar panel': { position: [-4.8, 2.3, 8.5], target: [-0.15, 0.55, 0] },
 }
+
+function DisplayCube() {
+    const { scene } = useGLTF('/kub.glb')
+
+    return <primitive object={scene} position={[0, -1.35, 0]} scale={[2.7, 1.35, 2.7]} />
+}
+
+useGLTF.preload('/kub.glb')
 
 function CameraController({ selectedAttachments, cameraResetKey }) {
     const controlsRef = useRef(null)
@@ -106,6 +114,8 @@ function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }
             intensity={1}
             color="#ffffff"
         />
+
+        <DisplayCube />
 
         <Center position={[0, 0.7, 0]}>
             <Model
