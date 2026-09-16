@@ -194,10 +194,27 @@
 @media (max-width: 768px) {
   .app {
     flex-direction: column;
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .header {
     right: 1.5rem;
+    gap: 1rem;
+  }
+
+  .logo {
+    width: 100%;
+    max-width: 60%;
+  }
+
+  .headerActions {
+    flex-shrink: 0;
+  }
+
+  .heroOverlay video {
+    object-fit: contain;
   }
 
   .modelContainer {
@@ -208,6 +225,8 @@
 
   .componentsContainer {
     width: 100%;
+    height: calc(100vh - 50vh);
+    overflow-y: auto;
   }
 
 }
