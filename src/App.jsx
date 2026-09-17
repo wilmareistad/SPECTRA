@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './App.module.css'
 import './App.css'
 import ConfiguratorPanel from './components/ConfiguratorPanel/ConfiguratorPanel'
@@ -16,6 +16,7 @@ function App() {
   const [size, setSize] = useState('Standard')
   const [selectedAttachments, setSelectedAttachments] = useState([])
   const [cameraResetKey, setCameraResetKey] = useState(0)
+  const introVideoRef = useRef(null)
 
   useEffect(() => {
     document.body.style.overflow = showIntro ? 'hidden' : ''
@@ -56,12 +57,26 @@ function App() {
     }, 800)
   }
 
+  function enableIntroSound() {
+    const video = introVideoRef.current
+
+    if (!video) return
+
+    video.muted = false
+    video.play().catch(() => {})
+  }
+
   return (
     <>
     {showIntro && (
-      <div className={`${styles.heroOverlay} ${introExiting ? styles.exiting : ''}`}>
+      <div
+        className={`${styles.heroOverlay} ${introExiting ? styles.exiting : ''}`}
+        onClick={enableIntroSound}
+      >
         <video
+          ref={introVideoRef}
           autoPlay
+          muted
           preload="auto"
           playsInline
           onEnded={finishIntro}
