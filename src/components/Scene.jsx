@@ -107,12 +107,19 @@ function LoadingIndicator() {
     )
 }
 
-function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }) {
+function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey, isIntroActive = false }) {
     
     return (
     <Canvas
+        dpr={[1, 1.5]}
+        frameloop={isIntroActive ? 'never' : 'always'}
         gl={{ antialias: true }}
         camera={{ position: DEFAULT_CAMERA_POSITION, fov: 50 }}
+        style={{
+            opacity: isIntroActive ? 0 : 1,
+            transition: 'opacity 180ms ease-out',
+            pointerEvents: isIntroActive ? 'none' : 'auto',
+        }}
     >
         <Suspense fallback={<LoadingIndicator />}>
         <Environment preset="studio" environmentIntensity={0.75} />

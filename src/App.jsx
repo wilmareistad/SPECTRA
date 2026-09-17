@@ -66,6 +66,8 @@ function App() {
     video.play().catch(() => {})
   }
 
+  const introIsActive = showIntro && !introExiting
+
   return (
     <>
     {showIntro && (
@@ -86,7 +88,7 @@ function App() {
       </div>
     )}
 
-    <main className={`${styles.app} ${showIntro && !introExiting ? styles.waitingForIntro : ''}`}>
+    <main className={`${styles.app} ${introIsActive ? styles.waitingForIntro : ''}`}>
       <header className={styles.header}>
         <img className={styles.logo} src="/assets/LOGGA.svg" alt="SPECTRA" />
 
@@ -120,6 +122,7 @@ function App() {
           size={size}
           selectedAttachments={selectedAttachments}
           cameraResetKey={cameraResetKey}
+          isIntroActive={introIsActive}
         />
       </div>
 
