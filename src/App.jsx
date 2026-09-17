@@ -62,7 +62,7 @@ function App() {
       <div className={`${styles.heroOverlay} ${introExiting ? styles.exiting : ''}`}>
         <video
           autoPlay
-          muted
+          preload="auto"
           playsInline
           onEnded={finishIntro}
           onError={finishIntro}
