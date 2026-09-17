@@ -66,7 +66,7 @@ function App() {
           playsInline
           onEnded={finishIntro}
           onError={finishIntro}
-          src="/assets/testanim.mp4"
+          src="/assets/spectra_header_vid_01.mov"
         />
       </div>
     )}
