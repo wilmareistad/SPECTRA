@@ -49,6 +49,7 @@
 
 .attachmentItem span {
   float: right;
+  font-family: var(--font-charon);
   color: var(--color-Grey-Scale-300);
 }
 

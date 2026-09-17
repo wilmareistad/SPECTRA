@@ -1,15 +1,21 @@
 import { useEffect, useRef } from 'react'
 import { useAnimations, useGLTF } from '@react-three/drei'
-import { LoopOnce } from 'three'
 import { COLOURS, LENSCOLOURS } from './ConfiguratorPanel/colours'
+import useModelAttachments from './useModelAttachments'
+
+async function getMaterialByName(parser, name) {
+  const materialIndex = parser.json.materials?.findIndex((material) => material.name === name)
+  if (materialIndex === undefined || materialIndex < 0) return null
+  return parser.getDependency('material', materialIndex)
+}
 
 function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
-  const { scene, animations, materials, parser } = useGLTF('/spectra_david_v1.glb')
+  const { scene, animations, parser } = useGLTF('/spectra_david_v5.glb')
   const { actions } = useAnimations(animations, scene)
   const originalLensMaterial = useRef(null)
   const glassesLensMaterial = useRef(null)
-  const frameMaterials = useRef({ white: null, black: null, colour: null })
-  const previousAttachments = useRef([])
+
+  useModelAttachments(scene, actions, selectedAttachments)
 
   useEffect(() => {
     const modelParts = []
@@ -48,17 +54,18 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
     const selectedColour = COLOURS.find((item) => item.name === colour)
     let cancelled = false
 
+    const isFrameMesh = (object) => {
+      const objectMaterials = Array.isArray(object.material) ? object.material : [object.material]
+      return object.name.toLowerCase().includes('glasses_frame') || objectMaterials.some(
+        (material) => material?.name?.startsWith('texture_frame_combined_'),
+      )
+    }
+
     const applyFrameMaterial = (frameMaterial) => {
       if (!frameMaterial || cancelled) return
 
       scene.traverse((object) => {
-        if (!object.isMesh) return
-        const objectName = object.name.toLowerCase()
-        const isFrame = ['glasses_frame', 'glasses_frame_arms'].includes(objectName)
-        const isAttachment = objectName.startsWith('attach_top_')
-
-        if (!isFrame && !isAttachment) return
-
+        if (!object.isMesh || (!isFrameMesh(object) && object.name.toLowerCase() !== 'attach_top_case')) return
         object.material = frameMaterial
       })
 
@@ -68,29 +75,15 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
       }
     }
 
-    scene.traverse((object) => {
-      if (!object.isMesh) return
-      if (!['glasses_frame', 'glasses_frame_arms'].includes(object.name)) return
-      if (!frameMaterials.current.white && object.material) {
-        frameMaterials.current.white = object.material
-      }
-    })
-
     const updateFrameMaterial = async () => {
-      if (colour === 'black' && !frameMaterials.current.black) {
-        frameMaterials.current.black = materials.texture_frame_combined_black
-          ?? await parser?.getDependency('material', 5)
-      }
+      const materialName = colour === 'black'
+        ? 'texture_frame_combined_black'
+        : 'texture_frame_combined_white'
+      const baseMaterial = await getMaterialByName(parser, materialName)
 
-      if (colour !== 'black' && !frameMaterials.current.colour) {
-        frameMaterials.current.colour = frameMaterials.current.white?.clone()
-      }
+      if (cancelled || !baseMaterial) return
 
-      const frameMaterial = colour === 'black'
-        ? frameMaterials.current.black ?? frameMaterials.current.white
-        : frameMaterials.current.colour ?? frameMaterials.current.white
-
-      applyFrameMaterial(frameMaterial)
+      applyFrameMaterial(colour === 'green' ? baseMaterial.clone() : baseMaterial)
     }
 
     updateFrameMaterial()
@@ -98,7 +91,7 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
     return () => {
       cancelled = true
     }
-  }, [colour, materials, parser, scene])
+  }, [colour, parser, scene])
 
   useEffect(() => {
     const selectedLensColour = LENSCOLOURS.find((item) => item.name === lensColour)
@@ -129,50 +122,6 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
         })
     })
   }, [lensColour, scene])
-
-  useEffect(() => {
-    const attachmentPrefixes = ['attach_laser_', 'attach_top_', 'attach_zoom_']
-    const selectedPrefixes = selectedAttachments.map(
-      (attachment) => `attach_${attachment}_`,
-    )
-
-    scene.traverse((object) => {
-      const objectName = object.name.toLowerCase()
-      const isAttachment = attachmentPrefixes.some((prefix) => objectName.startsWith(prefix))
-
-      if (isAttachment) {
-        object.visible = selectedPrefixes.some((prefix) => objectName.startsWith(prefix))
-      }
-    })
-  }, [selectedAttachments, scene])
-
-  useEffect(() => {
-    const animationNames = {
-      laser: 'attach_laser_animation',
-      top: 'top_attach_animation',
-      zoom: 'zoom_attach_animation',
-    }
-    const newlySelected = selectedAttachments.filter(
-      (attachment) => !previousAttachments.current.includes(attachment),
-    )
-
-    newlySelected.forEach((attachment) => {
-      const action = actions[animationNames[attachment]]
-      if (!action) return
-
-      action.reset().setLoop(LoopOnce, 1).play()
-    })
-
-    previousAttachments.current
-      .filter((attachment) => !selectedAttachments.includes(attachment))
-      .forEach((attachment) => actions[animationNames[attachment]]?.stop())
-
-    previousAttachments.current = selectedAttachments
-  }, [actions, selectedAttachments])
-
-  useEffect(() => () => {
-    Object.values(actions).forEach((action) => action.stop())
-  }, [actions])
 
   return <primitive object={scene} {...modelProps} />
 }

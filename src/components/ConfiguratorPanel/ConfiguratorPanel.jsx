@@ -10,25 +10,29 @@ export default function ConfiguratorPanel({
   onColourChange,
   lensColour,
   onLensColourChange,
+  size,
+  onSizeChange,
   selectedAttachments,
   onAttachmentSelect,
 }) {
   return (
     <div className={styles.panel}>
-      <div className={styles.section}>
-        <ColourPicker value={colour} onChange={onColourChange} />
-      </div>
-      <div className={styles.section}>
-        <LensTypePicker value={lensColour} onChange={onLensColourChange} />
-      </div>
-      <div className={styles.section}>
-        <SizePicker />
-      </div>
-      <div className={styles.section}>
-        <AttachmentsGrid
-          selectedAttachments={selectedAttachments}
-          onAttachmentSelect={onAttachmentSelect}
-        />
+      <div className={styles.panelContent}>
+        <div className={styles.section}>
+          <ColourPicker value={colour} onChange={onColourChange} />
+        </div>
+        <div className={styles.section}>
+          <LensTypePicker value={lensColour} onChange={onLensColourChange} />
+        </div>
+        <div className={styles.section}>
+          <SizePicker value={size} onChange={onSizeChange} />
+        </div>
+        <div className={styles.section}>
+          <AttachmentsGrid
+            selectedAttachments={selectedAttachments}
+            onAttachmentSelect={onAttachmentSelect}
+          />
+        </div>
       </div>
       <div className={styles.priceSection}>
         <PriceBar selectedAttachments={selectedAttachments} />

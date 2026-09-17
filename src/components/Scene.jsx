@@ -1,17 +1,34 @@
 import { useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Center, Environment, OrbitControls } from '@react-three/drei'
+import { Center, Environment, Html, OrbitControls } from '@react-three/drei'
+import { Suspense } from 'react'
 import { Vector3 } from 'three'
+import styles from '../App.module.css'
 import Model from './Model'
 
 
-const DEFAULT_CAMERA_POSITION = [-2.5, 2, 5.8]
-const DEFAULT_CAMERA_TARGET = [0, 0.7, 0]
-const CAMERA_FOCUSES = {
-    laser: { position: [3.6, 1.7, 5.2], target: [0.15, 0.75, 0] },
-    top: { position: [0, 3.1, 5.2], target: [0, 0.95, 0] },
-    zoom: { position: [2.9, 1.9, 5.4], target: [0.1, 0.8, 0] },
+const DEFAULT_CAMERA_POSITION = [-2.35, 1.1, 4.06]
+const DEFAULT_CAMERA_TARGET = [0, 0.1, 0]
+const MODEL_SCALES = {
+    Small: 0.98,
+    Standard: 1,
+    Large: 1.02,
 }
+const CAMERA_FOCUSES = {
+    laser: { position: [4, 1.8, 6], target: [0.15, 0.4, 0] },
+    lidar: { position: [0, 3.3, 6], target: [0, 0.65, 0] },
+    zoom: { position: [3.2, 2, 6.2], target: [0.1, 0.45, 0] },
+    scope: { position: [-2.8, 2.05, 8.2], target: [-0.05, 0.5, 0] },
+    solar: { position: [-4.8, 2.3, 8.5], target: [-0.15, 0.55, 0] },
+}
+
+// function DisplayCube() {
+//     const { scene } = useGLTF('/kub.glb')
+//
+//     return <primitive object={scene} position={[0, -1.35, 0]} scale={[2.7, 1.35, 2.7]} />
+// }
+//
+// useGLTF.preload('/kub.glb')
 
 function CameraController({ selectedAttachments, cameraResetKey }) {
     const controlsRef = useRef(null)
@@ -64,20 +81,40 @@ function CameraController({ selectedAttachments, cameraResetKey }) {
     return (
         <OrbitControls
             ref={controlsRef}
-            minDistance={3}
-            maxDistance={8}
+            minDistance={4.8}
+            maxDistance={10}
             enablePan={false}
+            onStart={() => {
+                isCameraTransitioning.current = false
+            }}
         />
     )
 }
 
-function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
+function LoadingIndicator() {
+    return (
+        <Html center>
+            <div className={styles.loadingIndicator}>
+                <span className={styles.loadingRing} />
+                <span className={styles.loadingLabel}>LOADING MODEL</span>
+                <span className={styles.loadingDots} aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                </span>
+            </div>
+        </Html>
+    )
+}
+
+function Scene({ colour, lensColour, size, selectedAttachments, cameraResetKey }) {
     
     return (
     <Canvas
         gl={{ antialias: true }}
         camera={{ position: DEFAULT_CAMERA_POSITION, fov: 50 }}
     >
+        <Suspense fallback={<LoadingIndicator />}>
         <Environment preset="studio" environmentIntensity={0.75} />
         <ambientLight intensity={0.1} />
 
@@ -97,10 +134,13 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
             color="#ffffff"
         />
 
+        {/* <DisplayCube /> */}
+
         <Center position={[0, 0.7, 0]}>
             <Model
                 colour={colour}
                 lensColour={lensColour}
+                scale={MODEL_SCALES[size]}
                 selectedAttachments={selectedAttachments}
             />
         </Center>
@@ -109,6 +149,7 @@ function Scene({ colour, lensColour, selectedAttachments, cameraResetKey }) {
             selectedAttachments={selectedAttachments}
             cameraResetKey={cameraResetKey}
         />
+        </Suspense>
 
     </Canvas>
   )

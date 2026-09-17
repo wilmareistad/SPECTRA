@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styles from './SizePicker.module.css'
 
 const SIZES = ['Small', 'Standard', 'Large']
@@ -9,8 +8,7 @@ const SIZE_DESCRIPTIONS = {
   Large: 'Large fits wider faces',
 }
 
-export default function SizePicker() {
-  const [selectedSize, setSelectedSize] = useState('Standard')
+export default function SizePicker({ value, onChange }) {
 
   return (
     <div className={styles.picker}>
@@ -20,14 +18,14 @@ export default function SizePicker() {
           <button
             key={size}
             type="button"
-            className={`${styles.button} ${selectedSize === size ? styles.selected : ''}`}
-            onClick={() => setSelectedSize(size)}
+            className={`${styles.button} ${value === size ? styles.selected : ''}`}
+            onClick={() => onChange(size)}
           >
             {size}
           </button>
         ))}
       </div>
-      <p>{SIZE_DESCRIPTIONS[selectedSize]}</p>
+      <p>{SIZE_DESCRIPTIONS[value]}</p>
     </div>
   )
 }
