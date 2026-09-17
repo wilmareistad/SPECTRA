@@ -8,7 +8,7 @@
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.9;
-  transition: opacity 800ms ease-in-out;
+  transition: opacity 500ms ease-in-out;
 }
 
 .app.waitingForIntro {
@@ -21,7 +21,7 @@
   inset: 0;
   z-index: 100;
   background: var(--color-bg);
-  transition: opacity 1200ms ease-in-out, transform 1200ms ease-in-out;
+  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out;
   will-change: transform, opacity;
 }
 
