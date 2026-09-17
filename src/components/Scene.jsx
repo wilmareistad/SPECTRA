@@ -16,10 +16,10 @@ const MODEL_SCALES = {
 }
 const CAMERA_FOCUSES = {
     laser: { position: [4, 1.8, 6], target: [0.15, 0.4, 0] },
-    top: { position: [0, 3.3, 6], target: [0, 0.65, 0] },
+    lidar: { position: [0, 3.3, 6], target: [0, 0.65, 0] },
     zoom: { position: [3.2, 2, 6.2], target: [0.1, 0.45, 0] },
     scope: { position: [-2.8, 2.05, 8.2], target: [-0.05, 0.5, 0] },
-    'solar panel': { position: [-4.8, 2.3, 8.5], target: [-0.15, 0.55, 0] },
+    solar: { position: [-4.8, 2.3, 8.5], target: [-0.15, 0.55, 0] },
 }
 
 // function DisplayCube() {

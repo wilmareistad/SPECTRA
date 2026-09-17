@@ -12,9 +12,9 @@ const ATTACHMENT_PREFIXES = [
 
 const ANIMATION_NAMES = {
   laser: ['attach_laser_animation'],
-  top: ['top_attach_animation'],
+  lidar: ['top_attach_animation'],
   zoom: ['zoom_attach_animation'],
-  'solar panel': ['Animation'],
+  solar: ['Animation'],
   scope: [
     'Attach_Animation_Hinge',
     'Attatch_Animation_Scope_1',
@@ -27,19 +27,21 @@ function useModelAttachments(scene, actions, selectedAttachments) {
   const previousAttachments = useRef([])
 
   useEffect(() => {
-    const selectedPrefixes = selectedAttachments.map(
-      (attachment) => {
-        if (attachment === 'solar panel') {
-          return ['attach_solarpanel_', 'attach_tactical_rails_']
-        }
+    const selectedPrefixes = selectedAttachments.map((attachment) => {
+      if (attachment === 'solar') {
+        return ['attach_solarpanel_', 'attach_tactical_rails_']
+      }
 
-        if (attachment === 'laser') {
-          return ['attach_laser_', 'attach_tactical_rails_']
-        }
+      if (attachment === 'lidar') {
+        return ['attach_top_']
+      }
 
-        return [`attach_${attachment}_`]
-      },
-    )
+      if (attachment === 'laser') {
+        return ['attach_laser_', 'attach_tactical_rails_']
+      }
+
+      return [`attach_${attachment}_`]
+    })
 
     scene.traverse((object) => {
       const objectName = object.name.toLowerCase()
