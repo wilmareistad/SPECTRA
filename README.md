@@ -15,6 +15,10 @@ Created as a Yrgo group project designed by Digital Designers Ellinor K. Lek, Ni
 
 ## Getting Started
 
+Clone the SPECTRA repo 
+
+git clone https://github.com/wilmareistad/SPECTRA.git
+
 Install the dependencies:
 
 ```bash
