@@ -3,18 +3,18 @@ import { LoopOnce } from 'three'
 
 const ATTACHMENT_PREFIXES = [
   'attach_laser_',
-  'attach_top_',
+  'attach_lidar_',
   'attach_zoom_',
-  'attach_solarpanel_',
+  'attach_solar_',
   'attach_scope_',
   'attach_tactical_rails_',
 ]
 
 const ANIMATION_NAMES = {
   laser: ['attach_laser_animation'],
-  top: ['top_attach_animation'],
+  lidar: ['attach_lidar_animation'],
   zoom: ['zoom_attach_animation'],
-  'solar panel': ['Animation'],
+  solar: ['attach_solar_animation'],
   scope: [
     'Attach_Animation_Hinge',
     'Attatch_Animation_Scope_1',
