@@ -7,12 +7,13 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: transform 1000ms ease-in-out;
+  opacity: 0.9;
+  transition: opacity 800ms ease-in-out;
 }
 
 .app.waitingForIntro {
-  transform: translateY(100vh);
-  will-change: transform;
+  opacity: 0.92;
+  will-change: opacity;
 }
 
 .heroOverlay {
@@ -20,12 +21,13 @@
   inset: 0;
   z-index: 100;
   background: var(--color-bg);
-  transition: transform 1000ms ease-in-out;
-  will-change: transform;
+  transition: opacity 1200ms ease-in-out, transform 1200ms ease-in-out;
+  will-change: transform, opacity;
 }
 
 .heroOverlay.exiting {
-  transform: translateY(-100%);
+  opacity: 0;
+  transform: scale(1.02);
   pointer-events: none;
 }
 

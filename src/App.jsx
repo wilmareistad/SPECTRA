@@ -54,7 +54,7 @@ function App() {
 
     setTimeout(() => {
       setShowIntro(false)
-    }, 800)
+    }, 1400)
   }
 
   function enableIntroSound() {
