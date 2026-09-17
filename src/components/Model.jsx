@@ -18,39 +18,6 @@ function Model({ colour, lensColour, selectedAttachments, ...modelProps }) {
   useModelAttachments(scene, actions, selectedAttachments)
 
   useEffect(() => {
-    const modelParts = []
-
-    scene.traverse((object) => {
-      if (!object.isMesh) return
-
-      const materials = Array.isArray(object.material)
-        ? object.material
-        : [object.material]
-
-      modelParts.push({
-        node: object.name,
-        type: object.type,
-        visible: object.visible,
-        materials: materials.map((material) => ({
-          name: material.name,
-          type: material.type,
-          color: material.color?.getHexString(),
-          roughness: material.roughness,
-          metalness: material.metalness,
-          opacity: material.opacity,
-          transparent: material.transparent,
-        })),
-      })
-    })
-
-    console.groupCollapsed('[SPECTRA] GLTF model parameters')
-    console.log('Animations:', animations.map(({ name }) => name))
-    console.table(modelParts)
-    console.log('Raw scene:', scene)
-    console.groupEnd()
-  }, [animations, scene])
-
-  useEffect(() => {
     const selectedColour = COLOURS.find((item) => item.name === colour)
     let cancelled = false
 
